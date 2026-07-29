@@ -1,23 +1,20 @@
 /**
- * Mahsusa Kur'an - Elifba Modül Yapılandırması
+ * Mahsusa Kur'an - Elifba Portal Yapılandırması
  * Domain: mahsusakuran.com
- * Mimarisi: KVKK, Patent & Telif Korumalı Bağımsız Modül
  */
 
 const ELIFBA_CONFIG = {
     MODULE_NAME: "Mahsusa Kur'an - Elifba Portal",
     DOMAIN: "mahsusakuran.com",
-    VERSION: "2.0.0",
+    VERSION: "3.0.0",
     
-    // Kurumsal ve Hukuki Beyanlar
     LEGAL: {
         COPYRIGHT: "© 2026 Mahsusa Kur'an (mahsusakuran.com). Tüm Hakları Saklıdır.",
-        KVKK_NOTICE: "Bu modülde KVKK gereği kişisel veri işlenmez. Öğrenci ilerlemesi cihazınızda tutulur.",
-        PATENT_NOTE: "Mahsusa Kur'an interaktif eğitim modülleri ve arayüz dizaynı koruma altındadır."
+        KVKK_NOTICE: "Kişisel veri toplanmaz. İlerleme cihazınızın yerel hafızasında saklanır."
     },
 
     SESSION: {
-        STORAGE_KEY: "mahsusakuran_elifba_v2",
+        STORAGE_KEY: "mahsusakuran_elifba_v3",
         GUEST_PREFIX: "mahsusa_guest_"
     }
 };
@@ -28,7 +25,7 @@ function getOrInitSession() {
         session = {
             userId: ELIFBA_CONFIG.SESSION.GUEST_PREFIX + Math.random().toString(36).substring(2, 8),
             isGuest: true,
-            mode: "child", // Default: Çocuk Modu
+            mode: "adult",
             completed: [],
             stars: 0,
             lastAccess: new Date().toLocaleDateString('tr-TR')
