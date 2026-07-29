@@ -1,0 +1,35 @@
+{
+  "meta": {
+    "domain": "mahsusakuran.com",
+    "version": "v54",
+    "brand": "#mahsusakuran"
+  },
+  "modules": {
+    "elifba": {
+      "title": "Elif-Ba & Kur'an Öğretmeni",
+      "current_lesson": "Harf: Hâ (ح) - Ders 4",
+      "alphabet": ["ا", "ب", "ت", "ث", "ج", "ح", "خ"]
+    },
+    "kissalar": [
+      { "title": "Hz. Âdem (a.s.)", "desc": "İlk insan, ilk peygamber ve tevbe kapısı." },
+      { "title": "Hz. Nuh (a.s.)", "desc": "950 yıllık tebliğ ve büyük tufan imtihanı." },
+      { "title": "Hz. İbrahim (a.s.)", "desc": "Halilullah, hanif inancı ve ateşin serinliğe dönüşü." },
+      { "title": "Hz. Musa (a.s.)", "desc": "Firavun'a karşı direniş, Asa mucizesi ve Tih Çölü." },
+      { "title": "Hz. Muhammed (s.a.v.)", "desc": "Hatemü'l-enbiyâ, âlemlere rahmet evrensel davet." }
+    ],
+    "esmalar": [
+      { "name": "الْحَكِيمُ (El-Hakim)", "meaning": "Her işi hikmetli ve yerinde olan.", "target": 100 }
+    ],
+    "burclar": [
+      { "ref": "Buruc Suresi, 1. Ayet", "text": "Gökyüzündeki burç sahibi göğe yemin olsun." },
+      { "ref": "Târık Suresi, 3. Ayet", "text": "Karanlığı delen o parlak yıldız (En-Necmü's-Sâkıb)." },
+      { "ref": "Furkan Suresi, 61. Ayet", "text": "Gökte burçlar var eden, orada kandil ve nurlu ay kılan Allah yücedir." }
+    ],
+    "ansiklopedi": [
+      { "title": "Mescid-i Haram", "location": "Mekke", "detail": "İslam'ın kalbi, Kabe'yi çevreleyen kutsal harem." },
+      { "title": "Mescid-i Nebevi", "location": "Medine", "detail": "Resûlullah'ın mescidi ve külliyesi." },
+      { "title": "Mescid-i Aksa", "location": "Kudüs", "detail": "İlk kıblemiz ve İslam mirası." },
+      { "title": "Türkiye Cami Envanteri", "location": "Türkiye", "detail": "89.000+ aktif tescilli cami ve tarihi külliyeler." }
+    ]
+  }
+}
