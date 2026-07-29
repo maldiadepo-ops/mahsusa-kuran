@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>9'lu Özel Eğitim Seti - Mahsusa Kur'an</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans p-4 md:p-8 min-h-screen">
+
+  <div class="max-w-6xl mx-auto space-y-8">
+    
+    <!-- ================================================================= -->
+    <!-- 1. HERO BANNER / TANITIM BAŞLIĞI                                 -->
+    <!-- ================================================================= -->
+    <section class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 text-white p-8 md:p-12 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-8">
+      <div class="space-y-4 max-w-2xl">
+        <span class="bg-amber-400 text-emerald-950 text-xs font-black uppercase px-3.5 py-1.5 rounded-full tracking-wider inline-block">
+          Özel Set Fırsatı
+        </span>
+        <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">
+          Mahsusa Kur'an <br><span class="text-amber-300">9'lu Özel Eğitim Seti</span>
+        </h1>
+        <p class="text-emerald-100 text-base md:text-lg leading-relaxed">
+          Çocuklar ve yeni başlayanlar için Kur'an-ı Kerim eğitimini destekleyen, özel tasarlanmış 9 parçadan oluşan eksiksiz fiziksel eğitim materyalleri.
+        </p>
+        
+        <!-- Avantaj Rozetleri -->
+        <div class="pt-2 flex flex-wrap gap-4 text-xs font-semibold text-emerald-200">
+          <span class="flex items-center gap-1">✓ OEKO-TEX Standardı</span>
+          <span class="flex items-center gap-1">✓ Dayanıklı ve Güvenli Malzeme</span>
+          <span class="flex items-center gap-1">✓ Eğitimi Destekleyici İçerik</span>
+        </div>
+      </div>
+
+      <!-- Fiyat ve Sipariş Kutusu -->
+      <div class="bg-white/10 border border-white/20 p-6 rounded-2xl text-center space-y-4 w-full md:w-72 shrink-0 backdrop-blur-sm">
+        <span class="text-xs text-emerald-200 uppercase font-bold block">Set Özel Fiyatı</span>
+        <div class="text-4xl font-black text-amber-300">Özel Set</div>
+        <p class="text-xs text-slate-200">Tüm Türkiye'ye Hızlı Kargo İmkânı</p>
+        
+        <button onclick="whatsappSiparisVer('9lu Ozel Set')" class="w-full bg-amber-400 hover:bg-amber-500 text-emerald-950 font-bold py-3.5 px-4 rounded-xl shadow-lg transition transform active:scale-95 flex items-center justify-center gap-2">
+          <span>💬 WhatsApp ile Sipariş Et</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- 2. 9 PAKET İÇERİK IZGARASI (GRID - 9 ÖZEL ÜRÜN)                 -->
+    <!-- ================================================================= -->
+    <section class="space-y-6">
+      <div class="text-center max-w-xl mx-auto space-y-2">
+        <h2 class="text-2xl font-bold text-slate-900">Set İçerisinde Neler Var?</h2>
+        <p class="text-slate-500 text-sm">Özenle hazırlanan 9 özel eğitim materyalini inceleyebilirsiniz.</p>
+      </div>
+
+      <div id="urunKonteyneri" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <!-- 9 Ürün Kartı JavaScript ile dinamik olarak çizilecektir -->
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- JAVASCRIPT KONTROL VE ETKİLEŞİM MANTIĞI                            -->
+  <!-- ================================================================= -->
+  <script>
+    // 1. 9 PARÇALIK SET ÜRÜN VERİ LİSTESİ
+    const PAKET_URUNLERI = [
+      { id: 1, no: "01", isim: "Elifba Çalışma Kartları", detay: "Arapça harfleri kolayca kavratan, renkli ve görsellerle desteklenmiş kart seti." },
+      { id: 2, no: "02", isim: "Tecvidli Kur'an Rehberi", detay: "Tecvid kurallarını renk kodlarıyla basitçe anlatan rehber kitapçık." },
+      { id: 3, no: "03", isim: "Siyer-i Nebi Hikaye Seti", detay: "Peygamber Efendimizin (s.a.v.) hayatını çocuklara sevdiren eğitici hikayeler." },
+      { id: 4, no: "04", isim: "Dualar ve Sureler Kitapçığı", detay: "Namaz duaları ve kısa surelerin okunuşları ve anlamlarını içeren özel baskı." },
+      { id: 5, no: "05", isim: "Etkileşimli Harf Standı", detay: "Kartların dizilerek kelime oluşturulmasını sağlayan ahşap eğitim standı." },
+      { id: 6, no: "06", isim: "Başarı ve Puan Çizelgesi", detay: "Çocukların ders takibini ve motivasyonunu artıran renkli çıkartmalı çizelge." },
+      { id: 7, no: "07", isim: "Çocuklar İçin Namaz Takvimi", detay: "İbadet alışkanlığını eğlenceli hale getiren özel rehber takvim." },
+      { id: 8, no: "08", isim: "Manevi Bilgi Kartları", detay: "Temel dini bilgileri soru-cevap şeklinde öğreten pratik kartlar." },
+      { id: 9, no: "09", isim: "Özel Muhafaza Kutusu", detay: "Tüm materyalleri bir arada ve korunaklı tutan şık ahşap/karton muhafaza kutusu." }
+    ];
+
+    /**
+     * 2. ÜRÜN KARTLARINI EKRANA DİZELEREN FONKSİYON
+     */
+    function urunleriEkranaBas() {
+      const konteyner = document.getElementById('urunKonteyneri');
+      konteyner.innerHTML = '';
+
+      PAKET_URUNLERI.forEach(urun => {
+        const kart = document.createElement('div');
+        kart.className = "bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between space-y-4 group";
+
+        kart.innerHTML = `
+          <div class="space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="w-10 h-10 bg-emerald-100 text-emerald-800 rounded-xl font-black text-sm flex items-center justify-center shadow-inner group-hover:bg-emerald-700 group-hover:text-white transition">
+                ${urun.no}
+              </span>
+              <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">Paket Dâhilinde</span>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800 group-hover:text-emerald-900 transition">${urun.isim}</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">${urun.detay}</p>
+          </div>
+          
+          <button onclick="whatsappSiparisVer('${urun.isim}')" class="w-full bg-slate-50 hover:bg-emerald-50 text-slate-700 hover:text-emerald-800 border border-slate-200 hover:border-emerald-300 py-2.5 rounded-xl text-xs font-bold transition">
+            Bu Ürün Hakkında Soru Sor
+          </button>
+        `;
+
+        konteyner.appendChild(kart);
+      });
+    }
+
+    /**
+     * 3. WHATSAPP SİPARİŞ VEYA İLETİŞİM YÖNLENDİRME FONKSİYONU
+     * @param {string} urunAdi - Tıklanan ürünün ismi
+     */
+    function whatsappSiparisVer(urunAdi) {
+      // Örnek telefon numarası (Kendi WhatsApp numaranızla değiştirebilirsiniz)
+      const telefon = "905000000000"; 
+      const mesaj = encodeURIComponent(`Merhaba, Mahsusa Kur'an web sitenizden "${urunAdi}" hakkında bilgi/sipariş almak istiyorum.`);
+      const whatsappUrl = `https://wa.me/${telefon}?text=${mesaj}`;
+      
+      // WhatsApp sayfasını yeni sekmede aç
+      window.open(whatsappUrl, '_blank');
+    }
+
+    // SAYFA YÜKLENDİĞİNDE ÜRÜNLERİ BASSIN
+    document.addEventListener('DOMContentLoaded', () => {
+      urunleriEkranaBas();
+    });
+  </script>
+</body>
+</html>

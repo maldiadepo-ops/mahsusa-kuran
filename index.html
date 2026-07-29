@@ -1,682 +1,113 @@
 <!DOCTYPE html>
-<html lang="tr" class="scroll-smooth">
+<html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mahsusa Kur'an | Zarif Tasarım ve Kalıcı Eserler</title>
-    
-    <!-- PWA Yapılandırması -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#022c22">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="assets/icon-192.png">
-
-    <!-- CDN Bağımlılıkları -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts: Plus Jakarta Sans & Amiri (Arapça) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        arabic: ['Amiri', 'serif'],
-                    },
-                    colors: {
-                        emerald: {
-                            950: '#022c22',
-                            900: '#064e3b',
-                            800: '#065f46',
-                            700: '#047857',
-                            600: '#059669',
-                            500: '#10b981',
-                            400: '#34d399',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .arabic-font {
-            font-family: 'Amiri', serif;
-            direction: rtl;
-        }
-        .bg-pattern {
-            background-image: radial-gradient(rgba(52, 211, 153, 0.08) 1px, transparent 1px);
-            background-size: 28px 28px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mahsusa Kur'an - Dijital Eğitim Platformu</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    /* Modül çerçevesinin ekranı tam kaplaması için stil ayarı */
+    .modul-kapsayici {
+      width: 100%;
+      height: calc(100vh - 73px);
+      border: none;
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-emerald-950 via-slate-900 to-emerald-950 text-slate-100 font-sans antialiased min-h-screen selection:bg-emerald-500 selection:text-slate-950">
+<body class="bg-slate-100 flex flex-col min-h-screen overflow-hidden">
 
-    <!-- NAVİGASYON BARI -->
-    <header class="sticky top-0 z-50 backdrop-blur-md bg-emerald-950/80 border-b border-emerald-800/30">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                
-                <!-- Logo -->
-                <a href="#" class="flex items-center gap-3 group">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-slate-950 font-bold text-xl shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
-                        🌱
-                    </div>
-                    <div>
-                        <span class="text-xl font-extrabold tracking-tight text-white block">Mahsusa Kur'an</span>
-                        <span class="text-[10px] tracking-widest text-emerald-400 uppercase block -mt-1 font-semibold">mahsusakuran.com</span>
-                    </div>
-                </a>
+  <!-- ================================================================= -->
+  <!-- 1. SABİT ÜST GEZİNTİ MENÜSÜ (HEADER)                            -->
+  <!-- ================================================================= -->
+  <header class="bg-emerald-900 text-white shadow-md z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      
+      <!-- Marka Logo ve Başlık -->
+      <div class="flex items-center space-x-2 cursor-pointer" onclick="modulYukle('elifba')">
+        <span class="text-2xl font-black tracking-wider text-amber-400">MAHSUSA</span>
+        <span class="text-xl font-bold text-white">KUR'AN</span>
+      </div>
 
-                <!-- Masaüstü Navigasyon -->
-                <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-300">
-                    <a href="#anasayfa" class="hover:text-emerald-400 transition-colors">Ana Sayfa</a>
-                    <a href="#elifba" class="hover:text-emerald-400 transition-colors">Elifba</a>
-                    <a href="#kuran-read" class="hover:text-emerald-400 transition-colors">Kur'an & Meal</a>
-                    <a href="#siyer" class="hover:text-emerald-400 transition-colors">Siyer-i Nebi</a>
-                    <a href="#yarisma" class="hover:text-emerald-400 transition-colors">Bilgi Yarışması</a>
-                    <a href="#ozel-paket" class="hover:text-emerald-400 transition-colors font-semibold text-emerald-400 flex items-center gap-1.5">
-                        <i class="fa-solid fa-box-open"></i> 9'lu Özel Paket
-                    </a>
-                </nav>
+      <!-- Modül Seçim Butonları -->
+      <nav class="flex items-center space-x-1 md:space-x-3 text-sm font-medium">
+        <button 
+          id="btn-elifba" 
+          onclick="modulYukle('elifba')" 
+          class="px-4 py-2 rounded-xl bg-emerald-800 text-amber-300 font-bold transition">
+          Elifba Eğitimi
+        </button>
+        
+        <button 
+          id="btn-yarisma" 
+          onclick="modulYukle('yarisma')" 
+          class="px-4 py-2 rounded-xl hover:bg-emerald-800 transition">
+          Siyer Yarışması
+        </button>
+        
+        <button 
+          id="btn-paket" 
+          onclick="modulYukle('paket')" 
+          class="bg-amber-400 hover:bg-amber-500 text-emerald-950 font-bold px-4 py-2 rounded-xl transition">
+          9'lu Özel Paket
+        </button>
+      </nav>
 
-                <!-- Giriş & İletişim Butonu -->
-                <div class="hidden md:flex items-center gap-4">
-                    <a href="https://wa.me/?text=Merhaba,%20Mahsusa%20Kuran%20ile%20ilgili%20bilgi%20almak%20istiyorum." target="_blank" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm transition-all shadow-md shadow-emerald-900/40">
-                        İletişime Geçin
-                    </a>
-                </div>
+    </div>
+  </header>
 
-                <!-- Mobil Hamburger Butonu -->
-                <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="p-2 text-slate-300 hover:text-white focus:outline-none">
-                        <i class="fa-solid fa-bars text-2xl"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
+  <!-- ================================================================= -->
+  <!-- 2. DİNAMİK MODÜL YÜKLEME ALANI (MAIN)                            -->
+  <!-- ================================================================= -->
+  <main class="flex-grow w-full bg-slate-100">
+    <iframe id="modulCerceve" src="./modules/elifba/index.html" class="modul-kapsayici"></iframe>
+  </main>
 
-        <!-- Mobil Menü -->
-        <div id="mobile-menu" class="hidden md:hidden bg-emerald-950 border-b border-emerald-800/40 px-4 pt-3 pb-6 space-y-3 text-slate-200">
-            <a href="#anasayfa" class="block py-2 hover:text-emerald-400 border-b border-slate-800/60">Ana Sayfa</a>
-            <a href="#elifba" class="block py-2 hover:text-emerald-400 border-b border-slate-800/60">Elifba</a>
-            <a href="#kuran-read" class="block py-2 hover:text-emerald-400 border-b border-slate-800/60">Kur'an & Meal</a>
-            <a href="#siyer" class="block py-2 hover:text-emerald-400 border-b border-slate-800/60">Siyer-i Nebi</a>
-            <a href="#yarisma" class="block py-2 hover:text-emerald-400 border-b border-slate-800/60">Bilgi Yarışması</a>
-            <a href="#ozel-paket" class="block py-2 text-emerald-400 font-semibold border-b border-slate-800/60">9'lu Özel Paket</a>
-            <a href="https://wa.me/?text=Merhaba,%20Mahsusa%20Kuran%20ile%20ilgili%20bilgi%20almak%20istiyorum." target="_blank" class="block w-full text-center py-2.5 mt-2 rounded-xl bg-emerald-600 text-white font-semibold">
-                İletişime Geçin
-            </a>
-        </div>
-    </header>
+  <!-- ================================================================= -->
+  <!-- 3. JAVASCRIPT YÖNLENDİRME MANTIĞI                                 -->
+  <!-- ================================================================= -->
+  <script>
+    /**
+     * Seçilen modülü çerçeveye yükleyen ve buton renklerini güncelleyen fonksiyon
+     * @param {string} modulAdi - Yüklenecek modülün adı
+     */
+    function modulYukle(modulAdi) {
+      const cerceve = document.getElementById('modulCerceve');
+      
+      if (modulAdi === 'elifba') {
+        cerceve.src = './modules/elifba/index.html';
+      } else if (modulAdi === 'yarisma') {
+        cerceve.src = './modules/yarisma/index.html';
+      } else if (modulAdi === 'paket') {
+        cerceve.src = './modules/paket/index.html';
+      }
 
-    <!-- HERO (AÇILIŞ) ALANI -->
-    <section id="anasayfa" class="relative pt-16 pb-24 md:pt-24 md:pb-32 overflow-hidden bg-pattern">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-8">
-            
-            <!-- Üst Rozet -->
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-900/40 border border-emerald-500/30 text-emerald-400 text-xs font-bold tracking-widest uppercase shadow-inner">
-                <i class="fa-solid fa-gem text-amber-400"></i> SEÇKİN KOLEKSİYON
-            </div>
-
-            <!-- Ana Başlık -->
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
-                Zarif Tasarım ve Kalıcı Eserler <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-200 to-emerald-400">Mahsusa Kuran</span> ile Kapınızda
-            </h1>
-
-            <!-- Alt Açıklama -->
-            <p class="text-base sm:text-lg md:text-xl text-slate-300 font-normal max-w-3xl mx-auto leading-relaxed">
-                Özenle hazırlanan özel setlerimiz ve titizlikle üretilen koleksiyonlarımızla manevi değerlerinizi en şık şekilde yaşatın.
-            </p>
-
-            <!-- Eylem Butonları -->
-            <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="#ozel-paket" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-bold text-base hover:brightness-110 shadow-lg shadow-emerald-500/25 transition-all text-center">
-                    <i class="fa-solid fa-box-open me-2"></i> 9'lu Özel Paketi Keşfet
-                </a>
-                <a href="https://wa.me/?text=Merhaba,%20Mahsusa%20Kuran%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-slate-200 hover:text-emerald-400 hover:border-emerald-400 font-semibold text-base transition-all text-center backdrop-blur-sm">
-                    <i class="fa-brands fa-whatsapp me-2 text-emerald-400"></i> Bizimle İletişime Geçin
-                </a>
-            </div>
-
-            <!-- ARAMA ÇUBUĞU VE İKON SİBÜLASYONU (AÇIK KURAN REFERANSI) -->
-            <div class="pt-10 max-w-2xl mx-auto">
-                <div class="relative bg-white/95 backdrop-blur-md rounded-full p-2 pl-6 shadow-2xl flex items-center justify-between border border-emerald-400/30">
-                    <!-- Sol Taraf: Arama Alanı -->
-                    <div class="flex items-center gap-3 flex-1">
-                        <i class="fa-solid fa-magnifying-glass text-slate-400 text-lg"></i>
-                        <input type="text" id="search-input" placeholder="Ayet, meal, surah veya konu ara..." class="w-full bg-transparent text-slate-800 text-sm font-medium focus:outline-none placeholder:text-slate-400">
-                    </div>
-
-                    <!-- Sağ Taraf: 3 Etkileşimli İkon -->
-                    <div class="flex items-center gap-1 sm:gap-2 border-l border-slate-200 pl-3">
-                        <!-- 1. Kitap/Kur'an İkonu -->
-                        <button onclick="triggerSearchAction('kuran')" title="Ayet ve Okuma Arama Simülasyonu" class="w-10 h-10 rounded-full hover:bg-emerald-100 text-slate-700 hover:text-emerald-700 flex items-center justify-center transition-colors">
-                            <i class="fa-solid fa-book-quran text-base"></i>
-                        </button>
-                        <!-- 2. Parmak İzi / Güvenlik İkonu -->
-                        <button onclick="triggerSearchAction('verify')" title="Hızlı Doğrulama ve Günün Ayeti" class="w-10 h-10 rounded-full hover:bg-emerald-100 text-slate-700 hover:text-emerald-700 flex items-center justify-center transition-colors">
-                            <i class="fa-solid fa-fingerprint text-base"></i>
-                        </button>
-                        <!-- 3. Bağlantı / Paylaşım İkonu -->
-                        <button onclick="triggerSearchAction('share')" title="Sayfa Bağlantısını Paylaş" class="w-10 h-10 rounded-full hover:bg-emerald-100 text-slate-700 hover:text-emerald-700 flex items-center justify-center transition-colors">
-                            <i class="fa-solid fa-share-nodes text-base"></i>
-                        </button>
-                    </div>
-                </div>
-                <!-- Arama Bildirim Alanı -->
-                <div id="search-toast" class="hidden mt-3 p-3 rounded-xl bg-emerald-900/80 border border-emerald-500/40 text-emerald-300 text-xs font-medium backdrop-blur-sm"></div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- MODÜL 1: ELİFBA EĞİTİM MODÜLÜ -->
-    <section id="elifba" class="py-20 bg-slate-900/90 border-t border-emerald-900/40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div class="text-center max-w-2xl mx-auto mb-12">
-                <span class="text-xs font-bold tracking-widest text-emerald-400 uppercase">İnteraktif Öğrenme</span>
-                <h2 class="text-3xl font-extrabold text-white sm:text-4xl mt-1">Elifba ve Mahreç Rehberi</h2>
-                <p class="text-slate-400 mt-2 text-sm">Arap alfabesi harflerini, harekeleri ve doğru telaffuz kurallarını öğrenin.</p>
-            </div>
-
-            <!-- Tab Butonları -->
-            <div class="flex justify-center mb-10">
-                <div class="inline-flex p-1.5 rounded-xl bg-emerald-950 border border-emerald-800/40">
-                    <button onclick="switchElifTab('harfler')" id="tab-btn-harfler" class="px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-emerald-500 text-slate-950 shadow">Harfler</button>
-                    <button onclick="switchElifTab('harekeler')" id="tab-btn-harekeler" class="px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-400 hover:text-white">Harekeler</button>
-                    <button onclick="switchElifTab('mahrec')" id="tab-btn-mahrec" class="px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-400 hover:text-white">Mahreç Kuralları</button>
-                </div>
-            </div>
-
-            <!-- Tab 1: Harfler Grid -->
-            <div id="elif-harfler" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-4">
-                <div class="p-4 rounded-xl bg-emerald-950/60 border border-emerald-800/40 hover:border-emerald-400 transition-all text-center group">
-                    <div class="arabic-font text-4xl text-emerald-400 mb-2 group-hover:scale-110 transition-transform">ا</div>
-                    <div class="text-white font-semibold text-sm">Elif</div>
-                    <div class="text-[11px] text-slate-500">İnce Harf</div>
-                </div>
-                <div class="p-4 rounded-xl bg-emerald-950/60 border border-emerald-800/40 hover:border-emerald-400 transition-all text-center group">
-                    <div class="arabic-font text-4xl text-emerald-400 mb-2 group-hover:scale-110 transition-transform">ب</div>
-                    <div class="text-white font-semibold text-sm">Be</div>
-                    <div class="text-[11px] text-slate-500">Dudak Harfi</div>
-                </div>
-                <div class="p-4 rounded-xl bg-emerald-950/60 border border-emerald-800/40 hover:border-emerald-400 transition-all text-center group">
-                    <div class="arabic-font text-4xl text-emerald-400 mb-2 group-hover:scale-110 transition-transform">ت</div>
-                    <div class="text-white font-semibold text-sm">Te</div>
-                    <div class="text-[11px] text-slate-500">Dil Ucu</div>
-                </div>
-                <div class="p-4 rounded-xl bg-emerald-950/60 border border-emerald-800/40 hover:border-emerald-400 transition-all text-center group">
-                    <div class="arabic-font text-4xl text-emerald-400 mb-2 group-hover:scale-110 transition-transform">ث</div>
-                    <div class="text-white font-semibold text-sm">Se</div>
-                    <div class="text-[11px] text-slate-500">Peksek İnce</div>
-                </div>
-                <div class="p-4 rounded-xl bg-emerald-950/60 border border-emerald-800/40 hover:border-emerald-400 transition-all text-center group">
-                    <div class="arabic-font text-4xl text-emerald-400 mb-2 group-hover:scale-110 transition-transform">ج</div>
-                    <div class="text-white font-semibold text-sm">Cim</div>
-                    <div class="text-[11px] text-slate-500">Dil Ortası</div>
-                </div>
-                <div class="p-4 rounded-xl bg-emerald-950/60 border border-emerald-800/40 hover:border-emerald-400 transition-all text-center group">
-                    <div class="arabic-font text-4xl text-emerald-400 mb-2 group-hover:scale-110 transition-transform">ح</div>
-                    <div class="text-white font-semibold text-sm">Ha</div>
-                    <div class="text-[11px] text-slate-500">Boğaz Harfi</div>
-                </div>
-                <div class="p-4 rounded-xl bg-emerald-950/60 border border-emerald-800/40 hover:border-emerald-400 transition-all text-center group">
-                    <div class="arabic-font text-4xl text-emerald-400 mb-2 group-hover:scale-110 transition-transform">خ</div>
-                    <div class="text-white font-semibold text-sm">Hı</div>
-                    <div class="text-[11px] text-slate-500">Boğaz / Kalın</div>
-                </div>
-            </div>
-
-            <!-- Tab 2: Harekeler -->
-            <div id="elif-harekeler" class="hidden grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="p-6 rounded-2xl bg-emerald-950/80 border border-emerald-800/40">
-                    <div class="text-3xl font-bold text-emerald-400 mb-2">َ Üstün (Fatha)</div>
-                    <p class="text-slate-300 text-sm leading-relaxed mb-4">Harfin üzerine konur. İnce harfleri "e", kalın harfleri "a" sesi ile okutur.</p>
-                    <div class="arabic-font text-2xl text-amber-300 bg-slate-900 p-3 rounded-lg text-center">بَ - دَ - رَ</div>
-                </div>
-                <div class="p-6 rounded-2xl bg-emerald-950/80 border border-emerald-800/40">
-                    <div class="text-3xl font-bold text-emerald-400 mb-2">ِ Esre (Kasra)</div>
-                    <p class="text-slate-300 text-sm leading-relaxed mb-4">Harfin altına konur. İnce harfleri "i", kalın harfleri "ı-i" arası bir sesle okutur.</p>
-                    <div class="arabic-font text-2xl text-amber-300 bg-slate-900 p-3 rounded-lg text-center">بِ - دِ - رِ</div>
-                </div>
-                <div class="p-6 rounded-2xl bg-emerald-950/80 border border-emerald-800/40">
-                    <div class="text-3xl font-bold text-emerald-400 mb-2">ُ Ötre (Damma)</div>
-                    <p class="text-slate-300 text-sm leading-relaxed mb-4">Harfin üzerine konur. İnce harfleri "ü", kalın harfleri "u" sesi ile okutur.</p>
-                    <div class="arabic-font text-2xl text-amber-300 bg-slate-900 p-3 rounded-lg text-center">بُ - دُ - رُ</div>
-                </div>
-            </div>
-
-            <!-- Tab 3: Mahreç Rehberi -->
-            <div id="elif-mahrec" class="hidden p-8 rounded-2xl bg-emerald-950/80 border border-emerald-800/40 max-w-3xl mx-auto space-y-4">
-                <h3 class="text-xl font-bold text-white mb-2">Harf Çıkış Noktaları (Mahreç)</h3>
-                <p class="text-slate-300 text-sm leading-relaxed">
-                    Kur'an okurken her harfin kendine ait mahreç bölgesinden (boğaz, dil, dudak veya geniz) çıkarılması doğru tecvid okuyuşunun esasıdır.
-                </p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                    <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
-                        <span class="text-emerald-400 font-bold block mb-1">Boğaz Harfleri</span>
-                        <span class="text-xs text-slate-400">ء, هـ, ع, ح, غ, خ</span>
-                    </div>
-                    <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
-                        <span class="text-emerald-400 font-bold block mb-1">Dudak Harfleri</span>
-                        <span class="text-xs text-slate-400">ب, م, و, ف</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- MODÜL 2: KUR'AN-I KERİM OKUMA VE MEAL MODÜLÜ -->
-    <section id="kuran-read" class="py-20 bg-emerald-950/40 border-t border-emerald-900/30">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div class="text-center max-w-2xl mx-auto mb-12">
-                <span class="text-xs font-bold tracking-widest text-emerald-400 uppercase">Dijital Okuma</span>
-                <h2 class="text-3xl font-extrabold text-white sm:text-4xl mt-1">Kur'an-ı Kerim ve Türkçe Meali</h2>
-                <p class="text-slate-400 mt-2 text-sm">Sure seçimi yaparak Arapça metin ve Türkçe açıklamayı bir arada inceleyebilirsiniz.</p>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                
-                <!-- Sol: Sure Listesi -->
-                <div class="lg:col-span-4 bg-slate-900/90 rounded-2xl p-4 border border-emerald-800/30 space-y-2">
-                    <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider px-3 py-2">Sure Seçimi</h3>
-                    
-                    <button onclick="loadSurah('fatiha')" class="surah-btn w-full p-3 rounded-xl bg-emerald-900/50 text-left border border-emerald-500/40 flex items-center justify-between text-sm font-semibold text-white">
-                        <span>1. Fâtiha Suresi</span>
-                        <span class="text-xs text-slate-400">7 Ayet</span>
-                    </button>
-                    <button onclick="loadSurah('ihlas')" class="surah-btn w-full p-3 rounded-xl bg-slate-950 hover:bg-emerald-900/30 text-left border border-slate-800 flex items-center justify-between text-sm font-semibold text-slate-300">
-                        <span>112. İhlâs Suresi</span>
-                        <span class="text-xs text-slate-400">4 Ayet</span>
-                    </button>
-                    <button onclick="loadSurah('felak')" class="surah-btn w-full p-3 rounded-xl bg-slate-950 hover:bg-emerald-900/30 text-left border border-slate-800 flex items-center justify-between text-sm font-semibold text-slate-300">
-                        <span>113. Felak Suresi</span>
-                        <span class="text-xs text-slate-400">5 Ayet</span>
-                    </button>
-                    <button onclick="loadSurah('nas')" class="surah-btn w-full p-3 rounded-xl bg-slate-950 hover:bg-emerald-900/30 text-left border border-slate-800 flex items-center justify-between text-sm font-semibold text-slate-300">
-                        <span>114. Nâs Suresi</span>
-                        <span class="text-xs text-slate-400">6 Ayet</span>
-                    </button>
-                </div>
-
-                <!-- Sağ: Okuma Görünümü -->
-                <div class="lg:col-span-8 bg-slate-900/90 rounded-2xl p-6 sm:p-8 border border-emerald-800/30 space-y-6">
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                        <h4 id="surah-title" class="text-xl font-bold text-white">Fâtiha Suresi</h4>
-                        <span class="px-3 py-1 rounded-full bg-emerald-900/60 text-emerald-400 text-xs font-semibold">1. Cüz</span>
-                    </div>
-
-                    <div id="surah-content" class="space-y-6">
-                        <!-- Ayet Görünümü JS ile Dinamik Dolar -->
-                        <div class="p-4 rounded-xl bg-emerald-950/40 border border-emerald-800/20 space-y-3">
-                            <div class="arabic-font text-3xl text-emerald-300 text-right leading-loose">
-                                بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
-                            </div>
-                            <div class="text-slate-300 text-sm leading-relaxed">
-                                <strong>1. Ayet:</strong> Rahmân ve Rahîm olan Allah'ın adıyla.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-
-    <!-- MODÜL 3: PEYGAMBERİMİZİN HAYATI (SİYER-İ NEBİ) -->
-    <section id="siyer" class="py-20 bg-slate-900/90 border-t border-emerald-900/30">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div class="text-center max-w-2xl mx-auto mb-16">
-                <span class="text-xs font-bold tracking-widest text-emerald-400 uppercase">Örnek Ahlak</span>
-                <h2 class="text-3xl font-extrabold text-white sm:text-4xl mt-1">Siyer-i Nebi Kronolojisi</h2>
-                <p class="text-slate-400 mt-2 text-sm">Hz. Muhammed'in (s.a.v.) kutlu hayatındaki dönüm noktaları ve adalet mirası.</p>
-            </div>
-
-            <!-- Zaman Çizelgesi -->
-            <div class="relative border-l-2 border-emerald-500/40 ml-4 md:ml-28 space-y-10 max-w-4xl mx-auto">
-                
-                <div class="relative pl-8 md:pl-10">
-                    <div class="absolute -left-[17px] top-1.5 w-8 h-8 rounded-full bg-slate-950 border-2 border-emerald-400 flex items-center justify-center text-emerald-400 font-bold text-xs">571</div>
-                    <div class="p-6 rounded-2xl bg-emerald-950/60 border border-emerald-800/40">
-                        <span class="text-xs font-bold text-emerald-400 uppercase">Doğum & Gençlik</span>
-                        <h3 class="text-lg font-bold text-white mt-1">Viladet ve El-Emin Ünvanı</h3>
-                        <p class="text-slate-300 text-sm mt-2 leading-relaxed">Mekke'de dünyaya geldi. Gençlik yıllarındaki dürüstlüğü ve adaleti sebebiyle toplumda "Güvenilir İnsan" anlamında El-Emin olarak anıldı.</p>
-                    </div>
-                </div>
-
-                <div class="relative pl-8 md:pl-10">
-                    <div class="absolute -left-[17px] top-1.5 w-8 h-8 rounded-full bg-slate-950 border-2 border-emerald-400 flex items-center justify-center text-emerald-400 font-bold text-xs">610</div>
-                    <div class="p-6 rounded-2xl bg-emerald-950/60 border border-emerald-800/40">
-                        <span class="text-xs font-bold text-emerald-400 uppercase">Nübüvvet</span>
-                        <h3 class="text-lg font-bold text-white mt-1">İlk Vahiy ve İslam Çağrısı</h3>
-                        <p class="text-slate-300 text-sm mt-2 leading-relaxed">Hira Mağarası'nda Cebrail (a.s.) aracılığıyla "Oku!" emri verildi. Tevhid inancı ve insani değerler insanlığa tebliğ edilmeye başlandı.</p>
-                    </div>
-                </div>
-
-                <div class="relative pl-8 md:pl-10">
-                    <div class="absolute -left-[17px] top-1.5 w-8 h-8 rounded-full bg-slate-950 border-2 border-emerald-400 flex items-center justify-center text-emerald-400 font-bold text-xs">622</div>
-                    <div class="p-6 rounded-2xl bg-emerald-950/60 border border-emerald-800/40">
-                        <span class="text-xs font-bold text-emerald-400 uppercase">Hicret</span>
-                        <h3 class="text-lg font-bold text-white mt-1">Medine Sözleşmesi ve Medeniyet</h3>
-                        <p class="text-slate-300 text-sm mt-2 leading-relaxed">Mekke'den Medine'ye hicret edildi. Farklı inanç gruplarının bir arada yaşamasını güvence altına alan ilk yazılı anayasa niteliğindeki Medine Sözleşmesi hazırlandı.</p>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-
-    <!-- MODÜL 4: İNTERAKTİF DİNİ BİLGİ YARIŞMASI (QUIZ) -->
-    <section id="yarisma" class="py-20 bg-emerald-950/40 border-t border-emerald-900/30">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div class="text-center mb-10">
-                <span class="text-xs font-bold tracking-widest text-emerald-400 uppercase">Bilgi Yarışması</span>
-                <h2 class="text-3xl font-extrabold text-white sm:text-4xl mt-1">İnteraktif Quiz</h2>
-                <p class="text-slate-400 mt-2 text-sm">Dini ve tarihi bilgilerinizi test edin, anında geri bildirim alın.</p>
-            </div>
-
-            <div class="bg-slate-900/90 rounded-2xl p-6 sm:p-8 border border-emerald-800/40 shadow-xl">
-                
-                <div class="flex items-center justify-between mb-4 text-xs text-slate-400">
-                    <span id="quiz-num">Soru 1 / 3</span>
-                    <span id="quiz-score" class="font-bold text-emerald-400">Puan: 0</span>
-                </div>
-
-                <div id="quiz-card" class="space-y-6">
-                    <h3 id="quiz-q-text" class="text-lg font-bold text-white">Soru yükleniyor...</h3>
-                    
-                    <div id="quiz-opts" class="space-y-3">
-                        <!-- Şıklar JS ile dolar -->
-                    </div>
-
-                    <div id="quiz-explain" class="hidden p-4 rounded-xl text-xs leading-relaxed"></div>
-
-                    <button id="quiz-next" onclick="nextQuizQuestion()" class="hidden px-6 py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs hover:brightness-110 ml-auto block">
-                        Sonraki Soru <i class="fa-solid fa-arrow-right ms-1"></i>
-                    </button>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-
-    <!-- MODÜL 5: "9'LU ÖZEL PAKET" E-TİCARET VİTRİNİ -->
-    <section id="ozel-paket" class="py-20 bg-gradient-to-b from-slate-900 via-emerald-950 to-slate-900 border-t border-emerald-900/40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div class="text-center max-w-2xl mx-auto mb-14">
-                <span class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-widest inline-block mb-3">
-                    SEÇKİN KOLEKSİYON
-                </span>
-                <h2 class="text-3xl font-extrabold text-white sm:text-4xl">Mahsusa 9'lu Özel Paket</h2>
-                <p class="text-slate-300 mt-2 text-sm">Birinci sınıf baskı, lüks cilt ve özel ahşap muhafaza kutusuyla eksiksiz bir manevevi set.</p>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-                
-                <!-- Görsel İllüstrasyonu / Ürün Vitrini -->
-                <div class="lg:col-span-6">
-                    <div class="p-8 rounded-3xl bg-emerald-950/80 border border-emerald-500/30 text-center space-y-6 shadow-2xl relative">
-                        <div class="w-28 h-28 mx-auto rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center text-slate-950 text-5xl shadow-lg shadow-emerald-500/30">
-                            <i class="fa-solid fa-box-open"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white">Lüks Ahşap Sunum & Muhafaza Kutusu</h3>
-                        <p class="text-xs text-slate-300 max-w-md mx-auto leading-relaxed">
-                            Kadife iç kaplama, varak yaldız detaylar ve özel tamamlayıcı aksesuarlarla donatılmış özel koleksiyon seti.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Paket Listesi -->
-                <div class="lg:col-span-6 space-y-6">
-                    <h3 class="text-xl font-bold text-white">Set İçeriği (9 Parça):</h3>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-200">
-                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-2">
-                            <i class="fa-solid fa-check text-emerald-400"></i> 1. Lüks Ciltli Kur'an-ı Kerim
-                        </div>
-                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-2">
-                            <i class="fa-solid fa-check text-emerald-400"></i> 2. Tecvitli Elifba Rehberi
-                        </div>
-                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-2">
-                            <i class="fa-solid fa-check text-emerald-400"></i> 3. Ahşap Katlanabilir Rahle
-                        </div>
-                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-2">
-                            <i class="fa-solid fa-check text-emerald-400"></i> 4. 99'lu Doğal Taş Tesbih
-                        </div>
-                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-2">
-                            <i class="fa-solid fa-check text-emerald-400"></i> 5. Siyer-i Nebi Kitabı
-                        </div>
-                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-2">
-                            <i class="fa-solid fa-check text-emerald-400"></i> 6. Cevşen-ül Kebir
-                        </div>
-                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-2">
-                            <i class="fa-solid fa-check text-emerald-400"></i> 7. Kabe Kokusu Esansı
-                        </div>
-                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-2">
-                            <i class="fa-solid fa-check text-emerald-400"></i> 8. Ayetli Hat Seccade
-                        </div>
-                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-2 col-span-1 sm:col-span-2">
-                            <i class="fa-solid fa-check text-emerald-400"></i> 9. Özel Tasarım Kadife Muhafaza Kutusu
-                        </div>
-                    </div>
-
-                    <!-- Butonlar -->
-                    <div class="pt-4 flex flex-col sm:flex-row gap-4">
-                        <a href="https://wa.me/?text=Merhaba,%209'lu%20Özel%20Paket%20siparişi%20vermek%20istiyorum." target="_blank" class="flex-1 py-4 px-6 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm text-center shadow-lg shadow-emerald-500/20 transition-all">
-                            Detaylı Bilgi Al & Sipariş Ver
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-
-    <!-- FOOTER (AÇIK KURAN TARZI) -->
-    <footer class="bg-slate-950 border-t border-emerald-900/40 py-12 text-slate-400 text-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-            
-            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-                <!-- Sol: Logo & İbare -->
-                <div class="flex items-center gap-3">
-                    <span class="text-2xl">🌱</span>
-                    <span class="text-white font-extrabold text-lg">Mahsusa Kur'an</span>
-                    <span class="text-xs text-slate-500 font-medium">| mahsusakuran.com</span>
-                </div>
-
-                <!-- Sağ: Sosyal Medya İkonları -->
-                <div class="flex items-center gap-4 text-slate-400 text-lg">
-                    <a href="#" title="X (Twitter)" class="hover:text-emerald-400 transition-colors"><i class="fa-brands fa-x-twitter"></i></a>
-                    <a href="#" title="YouTube" class="hover:text-emerald-400 transition-colors"><i class="fa-brands fa-youtube"></i></a>
-                    <a href="#" title="Instagram" class="hover:text-emerald-400 transition-colors"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" title="GitHub" class="hover:text-emerald-400 transition-colors"><i class="fa-brands fa-github"></i></a>
-                    <a href="mailto:info@mahsusakuran.com" title="E-Posta" class="hover:text-emerald-400 transition-colors"><i class="fa-solid fa-envelope"></i></a>
-                    <a href="#" title="Spotify / Podcast" class="hover:text-emerald-400 transition-colors"><i class="fa-brands fa-spotify"></i></a>
-                </div>
-            </div>
-
-            <div class="border-t border-slate-900 pt-6 text-center text-xs text-slate-500">
-                Mahsusa Kuran © 2026. Tüm hakları saklıdır.
-            </div>
-
-        </div>
-    </footer>
-
-    <!-- JAVASCRIPT MOTORU VE MANTIKLARI -->
-    <script>
-        // 1. PWA Service Worker Kaydı
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('SW Registered'))
-                    .catch(err => console.log('SW Registration Failed', err));
-            });
+      const butonlar = ['elifba', 'yarisma', 'paket'];
+      butonlar.forEach(id => {
+        const btn = document.getElementById(`btn-${id}`);
+        if (id === modulAdi) {
+          btn.classList.add('bg-emerald-800', 'text-amber-300', 'font-bold');
+        } else if (id !== 'paket') {
+          btn.classList.remove('bg-emerald-800', 'text-amber-300', 'font-bold');
         }
+      });
+    }
+  </script>
 
-        // 2. Mobil Menü Toggle
-        const mobileBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+  <!-- ================================================================= -->
+  <!-- 4. PWA SERVICE WORKER TETİKLEYİCİ SCRIPT                          -->
+  <!-- ================================================================= -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => console.log('[PWA] Service Worker Başarıyla Kaydedildi:', reg.scope))
+          .catch((err) => console.error('[PWA] Kayıt Hatası:', err));
+      });
+    }
+  </script>
 
-        // 3. Arama Çubuğu İkon Simülasyonları
-        function triggerSearchAction(type) {
-            const toast = document.getElementById('search-toast');
-            toast.classList.remove('hidden');
-            if (type === 'kuran') {
-                toast.innerHTML = "<strong>Okuma Modu:</strong> 'Fâtiha' ve 'İhlâs' sureleri hızlı arama dizinine eklendi.";
-            } else if (type === 'verify') {
-                toast.innerHTML = "<strong>Günün Ayeti Doğrulandı:</strong> 'Şüphesiz zorlukla beraber bir kolaylık vardır.' (İnşirah, 5)";
-            } else if (type === 'share') {
-                navigator.clipboard.writeText(window.location.href);
-                toast.innerHTML = "<strong>Bağlantı Kopyalandı:</strong> mahsusakuran.com adresi panoya kopyalandı.";
-            }
-            setTimeout(() => { toast.classList.add('hidden'); }, 4000);
-        }
-
-        // 4. Elifba Tab Değiştirici
-        function switchElifTab(tab) {
-            ['harfler', 'harekeler', 'mahrec'].forEach(t => {
-                document.getElementById(`elif-${t}`).classList.add('hidden');
-                document.getElementById(`tab-btn-${t}`).className = "px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-400 hover:text-white";
-            });
-            document.getElementById(`elif-${tab}`).classList.remove('hidden');
-            document.getElementById(`tab-btn-${tab}`).className = "px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-emerald-500 text-slate-950 shadow";
-        }
-
-        // 5. Kur'an Sure Okuyucu Simülatörü
-        const surahData = {
-            fatiha: {
-                title: "Fâtiha Suresi",
-                verses: [
-                    { ar: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", tr: "1. Rahmân ve Rahîm olan Allah'ın adıyla." },
-                    { ar: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", tr: "2. Hamd, âlemlerin Rabbi olan Allah'a mahsustur." },
-                    { ar: "الرَّحْمَٰنِ الرَّحِيمِ", tr: "3. O, Rahmân'dır, Rahîm'dir." },
-                    { ar: "مَالِكِ يَوْمِ الدِّينِ", tr: "4. Din (hesap ve ceza) gününün malikidir." }
-                ]
-            },
-            ihlas: {
-                title: "İhlâs Suresi",
-                verses: [
-                    { ar: "قُلْ هُوَ اللَّهُ أَحَدٌ", tr: "1. De ki: O, Allah'tır, tektir." },
-                    { ar: "اللَّهُ الصَّمَدُ", tr: "2. Allah Samed'dir (her şey O'na muhtaçtır)." }
-                ]
-            },
-            felak: {
-                title: "Felak Suresi",
-                verses: [
-                    { ar: "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ", tr: "1. De ki: Yarattığı şeylerin şerrinden sabahın Rabbine sığınırım." }
-                ]
-            },
-            nas: {
-                title: "Nâs Suresi",
-                verses: [
-                    { ar: "قُلْ أَعُوذُ بِرَبِّ النَّاسِ", tr: "1. De ki: İnsanların Rabbine sığınırım." }
-                ]
-            }
-        };
-
-        function loadSurah(key) {
-            const data = surahData[key];
-            document.getElementById('surah-title').innerText = data.title;
-            const container = document.getElementById('surah-content');
-            container.innerHTML = '';
-            data.verses.forEach(v => {
-                container.innerHTML += `
-                    <div class="p-4 rounded-xl bg-emerald-950/40 border border-emerald-800/20 space-y-3">
-                        <div class="arabic-font text-3xl text-emerald-300 text-right leading-loose">${v.ar}</div>
-                        <div class="text-slate-300 text-sm leading-relaxed">${v.tr}</div>
-                    </div>
-                `;
-            });
-        }
-
-        // 6. İnteraktif Quiz Motoru
-        const quizList = [
-            { q: "Kur'an-ı Kerim'in ilk indirilen suresi hangisidir?", opts: ["Fatiha Suresi", "Alak Suresi", "Yasin Suresi"], c: 1, exp: "İlk vahiy Alak Suresi'nin ilk 5 ayeti olarak indirilmiştir." },
-            { q: "Peygamber Efendimizin (s.a.v.) gençliğindeki dürüstlük ünvanı nedir?", opts: ["El-Emin", "El-Faruk", "Es-Sıddık"], c: 0, exp: "Güvenilirliği sebebiyle El-Emin denmiştir." },
-            { q: "Hicret hangi yılda gerçekleşmiştir?", opts: ["571", "610", "622"], c: 2, exp: "622 yılında Mekke'den Medine'ye hicret edilmiştir." }
-        ];
-
-        let qIdx = 0, score = 0, answered = false;
-
-        function renderQuiz() {
-            answered = false;
-            const item = quizList[qIdx];
-            document.getElementById('quiz-num').innerText = `Soru ${qIdx + 1} / ${quizList.length}`;
-            document.getElementById('quiz-score').innerText = `Puan: ${score}`;
-            document.getElementById('quiz-q-text').innerText = item.q;
-            
-            const optsDiv = document.getElementById('quiz-opts');
-            optsDiv.innerHTML = '';
-            document.getElementById('quiz-explain').classList.add('hidden');
-            document.getElementById('quiz-next').classList.add('hidden');
-
-            item.opts.forEach((o, i) => {
-                const btn = document.createElement('button');
-                btn.className = "w-full p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-left text-xs font-semibold text-slate-200 hover:border-emerald-500/50 transition-all";
-                btn.innerText = o;
-                btn.onclick = () => handleQuizOpt(i, btn);
-                optsDiv.appendChild(btn);
-            });
-        }
-
-        function handleQuizOpt(idx, btn) {
-            if (answered) return;
-            answered = true;
-            const item = quizList[qIdx];
-            const exp = document.getElementById('quiz-explain');
-
-            if (idx === item.c) {
-                score += 33;
-                btn.className = "w-full p-3.5 rounded-xl bg-emerald-950 border-2 border-emerald-500 text-left text-xs font-bold text-emerald-300";
-                exp.className = "mt-4 p-3 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 text-xs";
-                exp.innerHTML = `<strong>Doğru!</strong> ${item.exp}`;
-            } else {
-                btn.className = "w-full p-3.5 rounded-xl bg-rose-950 border-2 border-rose-500 text-left text-xs font-bold text-rose-300";
-                exp.className = "mt-4 p-3 rounded-xl bg-rose-950/60 border border-rose-500/40 text-rose-300 text-xs";
-                exp.innerHTML = `<strong>Yanlış!</strong> ${item.exp}`;
-            }
-
-            exp.classList.remove('hidden');
-            document.getElementById('quiz-score').innerText = `Puan: ${score}`;
-            document.getElementById('quiz-next').classList.remove('hidden');
-        }
-
-        function nextQuizQuestion() {
-            qIdx++;
-            if (qIdx < quizList.length) {
-                renderQuiz();
-            } else {
-                document.getElementById('quiz-card').innerHTML = `
-                    <div class="text-center py-6 space-y-3">
-                        <div class="text-4xl text-emerald-400"><i class="fa-solid fa-trophy"></i></div>
-                        <h4 class="text-xl font-bold text-white">Test Tamamlandı!</h4>
-                        <p class="text-sm text-slate-300">Toplam Puanınız: ${score}</p>
-                    </div>
-                `;
-            }
-        }
-
-        // Quiz Başlat
-        renderQuiz();
-    </script>
 </body>
 </html>
