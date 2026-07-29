@@ -1,235 +1,117 @@
 <!DOCTYPE html>
-<html lang="tr" dir="ltr">
+<html lang="tr" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mahsusa Kuran v54 - Küresel İslami Ekosistem ve Araştırma Platformu</title>
+    <title>Mahsusa Kuran | 9'lu Özel Paket ve Seçkin Eserler</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-dark: #0b132b;
-            --panel-bg: #1c2541;
-            --accent-color: #4cc9f0;
-            --text-main: #f8f9fa;
-            --text-muted: #8d99ae;
-            --border-color: #2b3b5e;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: var(--bg-dark); color: var(--text-main); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; min-height: 100vh; }
-        
-        .app-header { background-color: var(--panel-bg); border-bottom: 1px solid var(--border-color); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .brand-logo h1 { font-size: 1.2rem; color: var(--accent-color); }
-        .widgets-bar { font-size: 0.85rem; color: var(--text-muted); display: flex; gap: 15px; }
-
-        .app-container { display: grid; grid-template-columns: 280px 1fr 300px; flex: 1; gap: 15px; padding: 15px; }
-        .sidebar-left, .sidebar-right, .main-content { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; overflow-y: auto; max-height: 85vh; }
-        
-        .nav-menu h3 { font-size: 0.95rem; margin-bottom: 10px; color: var(--accent-color); border-bottom: 1px solid var(--border-color); padding-bottom: 5px; }
-        .nav-menu ul { list-style: none; }
-        .nav-menu ul li { margin-bottom: 8px; }
-        .nav-menu ul li a { color: var(--text-main); text-decoration: none; font-size: 0.88rem; display: block; padding: 8px; border-radius: 4px; transition: background 0.2s; cursor: pointer; }
-        .nav-menu ul li a:hover { background-color: rgba(76, 201, 240, 0.15); color: var(--accent-color); }
-
-        .module-view { display: none; }
-        .module-view.active { display: block; }
-        .content-card { background: #131b2e; border: 1px solid var(--border-color); padding: 20px; border-radius: 8px; margin-bottom: 15px; }
-        .content-card h3 { color: var(--accent-color); margin-bottom: 12px; font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
-        .content-card p, .content-card li { line-height: 1.7; color: #d8e2dc; font-size: 0.95rem; margin-bottom: 10px; }
-        
-        .arabic-text { font-size: 2.2rem; text-align: right; font-family: 'Amiri', 'Traditional Arabic', serif; padding: 15px 0; color: #f3c68f; }
-        .icon-btn { background-color: #2b3b5e; color: var(--text-main); border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; margin-top: 10px; }
-        .icon-btn:hover { background-color: var(--accent-color); color: var(--bg-dark); font-weight: bold; }
-        
-        .app-footer { background-color: var(--panel-bg); border-top: 1px solid var(--border-color); text-align: center; padding: 12px; font-size: 0.85rem; color: var(--text-muted); }
-        .app-footer a { color: var(--accent-color); text-decoration: none; }
-        
-        @media (max-width: 900px) { .app-container { grid-template-columns: 1fr; } }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
     </style>
 </head>
-<body class="theme-orman" data-brand="mahsusakuran.com">
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-emerald-800 selection:text-white">
 
-    <!-- ÜST WIDGET & BİLGİ ALANI -->
-    <header class="app-header">
-        <div class="brand-logo">
-            <h1>Mahsusa Kuran v54</h1>
-        </div>
-        <div class="widgets-bar">
-            <span>Namaz: İkindi 16:45</span>
-            <span>Kıble: 154° GD</span>
-            <span>Hicri: 15 Safer 1448</span>
-            <span>Malatya / Merkez (#mahsusakuran Telif Korumalı)</span>
+    <!-- Header / Navbar -->
+    <header class="bg-slate-950/90 text-white backdrop-blur-md border-b border-slate-800 sticky top-0 z-50 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#anasayfa" class="flex items-center gap-2">
+                <span class="text-2xl font-bold tracking-tight text-emerald-400">Mahsusa Kuran</span>
+            </a>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                <a href="#anasayfa" class="hover:text-white transition">Ana Sayfa</a>
+                <a href="#paket" class="hover:text-white transition">9'lu Özel Paket</a>
+                <a href="#hakkimizda" class="hover:text-white transition">Hakkımızda</a>
+                <a href="#iletisim" class="hover:text-white transition">İletişim</a>
+            </nav>
+            <div>
+                <a href="#paket" class="bg-emerald-800 text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition shadow-sm">Hemen İncele</a>
+            </div>
         </div>
     </header>
 
-    <!-- ANA İÇERİK VE MODÜLER YAPI -->
-    <div class="app-container">
-        
-        <!-- SOL AÇILIR KAPANIR KENARLIK (SIDEBAR) -->
-        <aside class="sidebar-left">
-            <nav class="nav-menu">
-                <h3>Ana Modüller</h3>
-                <ul>
-                    <li><a onclick="switchModule('okuma')">📖 Ana Okuma & Meal Ekranı</a></li>
-                    <li><a onclick="switchModule('elifba')">🟢 Elif-Ba & Kur'an Öğretmeni</a></li>
-                    <li><a onclick="switchModule('kissalar')">📜 Peygamberler Kıssaları & Kütüphane</a></li>
-                    <li><a onclick="switchModule('ansiklopedi')">🏛️ İslam Ansiklopedisi & Dünya Camileri</a></li>
-                    <li><a onclick="switchModule('esmalar')">✨ Esmalar, Zikirler & Tesbihatlar</a></li>
-                    <li><a onclick="switchModule('burclar')">🌟 Kur'an'da Geçen Yıldızlar ve Burçlar</a></li>
-                    <li><a onclick="switchModule('sorubankasi')">🏆 Soru Bankası & Üye Düelloları</a></li>
-                    <li><a onclick="switchModule('profil')">👤 Kapsamlı Profil & Abonelik</a></li>
-                </ul>
-            </nav>
-        </aside>
+    <!-- Minimalist & Striking Hero Section (Reference Style) -->
+    <section id="anasayfa" class="relative min-h-[90vh] flex items-center justify-center bg-gradient-to-br from-emerald-950 via-slate-900 to-emerald-950 text-white px-4 overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.1)_0,transparent_70%)]"></div>
+        <div class="max-w-5xl mx-auto text-center relative z-10 py-20">
+            <span class="inline-block bg-emerald-800/60 text-emerald-300 text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider mb-6 border border-emerald-700/40">Seçkin Koleksiyon</span>
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.15]">
+                Zarif Tasarım ve Kalıcı Eserler Mahsusa Kuran ile Kapınızda
+            </h1>
+            <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto font-light leading-relaxed">
+                Manevi değerlerinizi en şık şekilde yaşatmanız için titizlikle hazırlanan özel setlerimiz sizlerle.
+            </p>
+            <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#paket" class="bg-emerald-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-emerald-500 transition shadow-lg">9'lu Özel Paketi Keşfet</a>
+                <a href="#iletisim" class="border border-slate-700 text-slate-300 px-8 py-4 rounded-xl font-semibold hover:bg-slate-800 transition">İletişime Geçin</a>
+            </div>
+        </div>
+    </section>
 
-        <!-- ORTA İÇERİK ALANI (TÜM MODÜLLER DOLU VE KAPSAMLI) -->
-        <main class="main-content">
+    <!-- Featured Product Section: 9'lu Özel Paket -->
+    <section id="paket" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">Öne Çıkan Koleksiyon</h2>
+                <p class="mt-4 text-lg text-slate-600">En çok tercih edilen, tüm detayları büyük bir özenle düşünülmüş özel setimiz.</p>
+            </div>
             
-            <!-- 1. ANA OKUMA EKRANI -->
-            <div id="modul-okuma" class="module-view active">
-                <div class="content-card">
-                    <h3>FÂTİHA SURESİ • 1:1</h3>
-                    <p class="arabic-text">بِسْمِ اللَِّ الرَّحْمَٰنِ الرَّحِيمِ</p>
-                    <p><strong>Mealli Okuma:</strong> Rahman ve Rahim olan Allah'ın adıyla.</p>
-                    <div style="display:flex; gap:10px; margin-top:15px;">
-                        <button class="icon-btn">▶️ Oynat</button>
-                        <button class="icon-btn">⏸️ Durdur</button>
-                        <button class="icon-btn">🔊 Doğal Sesli Oku</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 2. ELİF-BA MODÜLÜ -->
-            <div id="modul-elifba" class="module-view">
-                <div class="content-card">
-                    <h3>Elif-Ba & Kur'an Pratik Dersleri</h3>
-                    <p>Sıfırdan Kur'an öğrenme modülü. Harflerin mahreçleri, üstün, esre, ötre ve cezim kuralları.</p>
-                    <div style="text-align:center; background:#0b132b; padding:25px; border-radius:6px; margin:15px 0;">
-                        <span style="font-size:3rem; color:#4cc9f0;">ا - ب - ت - ث</span>
-                        <p style="margin-top:10px; color:#8d99ae;">Elif, Be, Te, Se (Harf Çalışma Paneli)</p>
-                    </div>
-                    <button class="icon-btn">Sonraki Harf / Derse Geç ➡</button>
-                </div>
-            </div>
-
-            <!-- 3. PEYGAMBERLER KISSALARI -->
-            <div id="modul-kissalar" class="module-view">
-                <div class="content-card">
-                    <h3>Peygamberler Kıssaları & Âlimler Kütüphanesi</h3>
-                    <p>Kur'an-ı Kerim'de zikredilen peygamberlerin hayat hikayeleri, tebliğ mücadeleleri ve ibretlik kesitler:</p>
-                    <ul style="padding-left:20px; margin-top:10px;">
-                        <li><strong>Hz. Âdem (a.s.):</strong> İlk insan, ilk peygamber ve tevbe kapısı.</li>
-                        <li><strong>Hz. Nuh (a.s.):</strong> 950 yıllık tebliğ ve büyük tufan imtihanı.</li>
-                        <li><strong>Hz. İbrahim (a.s.):</strong> Ateşin serinliğe döndüğü Halilullah makamı.</li>
-                        <li><strong>Hz. Musa (a.s.):</strong> Firavun'a karşı direniş, Asa mucizesi ve Tih Çölü.</li>
-                        <li><strong>Hz. Muhammed (s.a.v.):</strong> Hatemü'l-enbiyâ, âlemlere rahmet evrensel davet.</li>
+            <div class="bg-slate-50 border border-slate-200 rounded-3xl p-8 sm:p-12 lg:p-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center shadow-sm">
+                <div>
+                    <span class="bg-emerald-100 text-emerald-900 text-xs font-bold px-3.5 py-1.5 rounded-md uppercase tracking-wide">Popüler Set</span>
+                    <h3 class="text-3xl sm:text-4xl font-bold text-slate-900 mt-4">9'lu Özel Paket</h3>
+                    <p class="mt-4 text-slate-600 leading-relaxed text-base sm:text-lg">
+                        Manevi hayatınıza değer katacak, en seçkin parçalardan oluşan 9'lu özel setimiz şimdi avantajlı seçeneklerle sizlerle. Kalite standartlarından ödün vermeden hazırlanan bu set, hem sevdikleriniz için anlamlı bir hediye hem de eviniz için eşsiz bir eserdir.
+                    </p>
+                    <ul class="mt-6 space-y-3 text-sm sm:text-base text-slate-700">
+                        <li class="flex items-center gap-3">
+                            <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-900 flex items-center justify-center text-xs font-bold">✓</span>
+                            Birinci sınıf baskı, cilt ve malzeme kalitesi
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-900 flex items-center justify-center text-xs font-bold">✓</span>
+                            Özel muhafaza, koruma ve sunum kutusu
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-900 flex items-center justify-center text-xs font-bold">✓</span>
+                            Set içerisindeki özel tamamlayıcı aksesuarlar
+                        </li>
                     </ul>
-                </div>
-            </div>
-
-            <!-- 4. İSLAM ANSİKLOPEDİSİ & DÜNYA CAMİLERİ -->
-            <div id="modul-ansiklopedi" class="module-view">
-                <div class="content-card">
-                    <h3>Modüler İslam Ansiklopedisi & Dünya Camileri Envanteri</h3>
-                    <p>İslam medeniyetinin mimari şaheserleri ve küresel cami envanteri verileri:</p>
-                    <ul style="padding-left:20px; margin-top:10px;">
-                        <li><strong>Mescid-i Haram (Mekke):</strong> İslam'ın kalbi, Kabe'yi çevreleyen en kutsal harem.</li>
-                        <li><strong>Mescid-i Nebevi (Medine):</strong> Resûlullah'ın mescidi ve Mescid-i Nebevî külliyesi.</li>
-                        <li><strong>Mescid-i Aksa (Kudüs):</strong> İlk kıblemiz, Kudüs'ün İslam mirası.</li>
-                        <li><strong>Türkiye Envanteri:</strong> Ülke genelinde 89.000+ aktif tescilli cami ve tarihi külliyeler.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- 5. ESMALAR, ZİKİRLER -->
-            <div id="modul-esmalar" class="module-view">
-                <div class="content-card">
-                    <h3>Esmalar, Zikirler & Tesbihatlar</h3>
-                    <p>Esma-ül Hüsna havuzu, manaları ve günlük kişiselleştirilmiş zikirmatik takip sistemi:</p>
-                    <div style="background:#0b132b; padding:20px; border-radius:6px; text-align:center; margin-top:15px;">
-                        <h2 style="color:#4cc9f0;">الْحَكِيمُ (El-Hakim)</h2>
-                        <p style="color:#8d99ae; margin:8px 0;">Her işi hikmetli ve yerinde olan, hüküm sahibi.</p>
-                        <p>Günlük Hedef: 100 | Çekilen: <span id="zikirCount">35</span></p>
-                        <button class="icon-btn" onclick="document.getElementById('zikirCount').innerText = parseInt(document.getElementById('zikirCount').innerText)+1">Zikir Çek (+1) 📿</button>
+                    <div class="mt-8">
+                        <a href="#iletisim" class="inline-block bg-emerald-900 text-white px-8 py-4 rounded-xl font-semibold hover:bg-emerald-950 transition shadow-md">Detaylı Bilgi Al & Sipariş Ver</a>
                     </div>
                 </div>
-            </div>
-
-            <!-- 6. KUR'AN'DA GEÇEN YILDIZLAR VE BURÇLAR -->
-            <div id="modul-burclar" class="module-view">
-                <div class="content-card">
-                    <h3>Kur'an'da Geçen Yıldızlar ve Burçlar</h3>
-                    <p>Kur'an-ı Kerim'de zikredilen gök cisimleri, felekler ve ayet temelli ilmî analizler:</p>
-                    <ul style="padding-left:20px; margin-top:10px;">
-                        <li><strong>Buruc Suresi (1. Ayet):</strong> "Gökyüzündeki burç sahibi göğe yemin olsun ki..." (Evrenin muazzam düzenine dikkat çekilir).</li>
-                        <li><strong>Târık Suresi (3. Ayet):</strong> "Karanlığı delen o parlak yıldız (En-Necmü's-Sâkıb)."</li>
-                        <li><strong>Furkan Suresi (61. Ayet):</strong> "Gökte burçlar var eden, orada bir kandil (güneş) ve nurlu bir ay kılan Allah ne yücedir."</li>
-                    </ul>
+                <div class="bg-slate-100 border border-slate-200 rounded-2xl p-8 sm:p-12 text-center flex flex-col justify-center items-center min-h-[360px] relative overflow-hidden">
+                    <span class="text-emerald-900 font-bold text-2xl">Mahsusa Kuran Özel Seti</span>
+                    <p class="text-slate-600 font-medium text-sm mt-2">9 Parçalık Tam Donanımlı Koleksiyon</p>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- 7. SORU BANKASI & DÜELLOLAR -->
-            <div id="modul-sorubankasi" class="module-view">
-                <div class="content-card">
-                    <h3>Gelişmiş Soru Bankası & Üye Düelloları</h3>
-                    <p>Mükerrer soru engelleme filtreli, 3 zorluk seviyeli İslami ilimler sınav sistemi ve Liderlik Tablosu.</p>
-                    <div style="background:#0b132b; padding:15px; border-radius:6px; margin-top:15px;">
-                        <strong>🏆 Top 10 Liderler:</strong>
-                        <ol style="padding-left:20px; margin-top:8px; color:#8d99ae;">
-                            <li>Eyyüp Y. - 1450 Puan (Mahsusa Master)</li>
-                            <li>Ahmet K. - 1320 Puan</li>
-                            <li>Mehmet T. - 1280 Puan</li>
-                        </ol>
-                        <button class="icon-btn" style="width:100%;" onclick="alert('Canlı Düello Modu Başlatılıyor!')">Canlı Düello Başlat ⚔</button>
-                    </div>
-                </div>
+    <!-- About Section -->
+    <section id="hakkimizda" class="py-24 bg-slate-100 border-t border-slate-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">Güvenilir ve Kaliteli Hizmet</h2>
+            <p class="mt-6 text-lg text-slate-600 leading-relaxed font-light">
+                Mahsusa Kuran olarak amacımız, en nitelikli eserleri en zarif işçilikle buluşturmak ve sizlere ulaştırmaktır. Müşteri memnuniyetini ve şeffaflığı ön planda tutarak çıktığımız bu yolda, her ürünümüzü titizlikle inceliyor ve en iyi standartlarda sunuyoruz.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <footer id="iletisim" class="bg-slate-950 text-white py-16 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div>
+                <span class="text-2xl font-bold tracking-tight text-emerald-400">Mahsusa Kuran</span>
+                <p class="mt-2 text-slate-400 text-sm">Tüm hakları saklıdır. Güvenli alışveriş ve seçkin eserler.</p>
             </div>
-
-            <!-- 8. PROFİL & ABONELİK -->
-            <div id="modul-profil" class="module-view">
-                <div class="content-card">
-                    <h3>Kapsamlı Profil & Abonelik Yönetimi</h3>
-                    <p>Kullanıcı Bilgileri, KVKK ve Mahsusa Platformu Kurucu Üye Paneli.</p>
-                    <div style="margin-top:15px; background:#0b132b; padding:15px; border-radius:6px;">
-                        <p><strong>Ad Soyad:</strong> Eyyüp YAPICI</p>
-                        <p><strong>E-posta:</strong> eyyubyapici@gmail.com</p>
-                        <p><strong>Yetki Seviyesi:</strong> Kurucu / Master Yönetici (#mahsusakuran)</p>
-                    </div>
-                </div>
+            <div class="md:text-right">
+                <p class="text-slate-300 font-medium">İletişim & Destek</p>
+                <a href="mailto:info@mahsusakuran.com" class="text-emerald-400 text-sm mt-1 hover:underline inline-block">info@mahsusakuran.com</a>
             </div>
-
-        </main>
-
-        <!-- SAĞ ÖNİZLEME / KART ALANI -->
-        <aside class="sidebar-right">
-            <div class="content-card">
-                <h3>Ayet Görsel Kartı</h3>
-                <p>"Rahman ve Rahim olan Allah'ın adıyla."</p>
-                <span style="color:var(--accent-color); font-weight:bold; display:inline-block; margin-top:10px;">#mahsusakuran</span>
-            </div>
-        </aside>
-    </div>
-
-    <!-- RESMİ FOOTER (ALTBİLGİ) ALANI -->
-    <footer class="app-footer">
-        <p>
-            <a href="https://www.instagram.com/by_ypc/" target="_blank" rel="noopener">By YPC</a> aittir. © 2026 mahsusakuran.com her hakkı saklıdır.
-        </p>
+        </div>
     </footer>
 
-    <script>
-        function switchModule(modulID) {
-            document.querySelectorAll('.module-view').forEach(el => el.classList.remove('active'));
-            document.getElementById('modul-' + modulID).classList.add('active');
-        }
-
-        // Kopyalama koruması (#mahsusakuran)
-        document.addEventListener("copy", (event) => {
-            const selection = window.getSelection();
-            const brandedText = selection.toString() + "\n\n[Kaynak: mahsusakuran.com #mahsusakuran]";
-            if (event.clipboardData) {
-                event.clipboardData.setData("text/plain", brandedText);
-            }
-            event.preventDefault();
-        });
-    </script>
 </body>
 </html>
