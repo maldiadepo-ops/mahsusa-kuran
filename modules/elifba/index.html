@@ -3,207 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elifba Harf Eğitimi Modülü - Mahsusa Kur'an</title>
+  <title>Mahsusa Kur'an - Dijital Eğitim Platformu</title>
   
-  <!-- Tailwind CSS CDN Bağlantısı -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    /* Modül çerçevesinin ekranı tam kaplaması için stil ayarı */
+    .modul-kapsayici {
+      width: 100%;
+      height: calc(100vh - 73px); /* Header yüksekliği çıkarılmış tam ekran */
+      border: none;
+    }
+  </style>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans p-4 md:p-8 min-h-screen">
-
-  <div class="max-w-6xl mx-auto space-y-5">
-    
-    <!-- ================================================================= -->
-    <!-- 1. ÜST ARAMA VE BAŞLIK BARI                                      -->
-    <!-- ================================================================= -->
-    <header class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4">
-      <div>
-        <h1 class="text-xl md:text-2xl font-bold text-emerald-900 flex items-center gap-2">
-          <span>📖</span> Elifba Harf Eğitimi Modülü
-        </h1>
-        <p class="text-slate-500 text-sm mt-0.5">Öğrenmek istediğiniz harfin üzerine tıklayarak detayını inceleyin.</p>
-      </div>
-      
-      <!-- Arama Kutusu -->
-      <div class="w-full md:w-80">
-        <input 
-          type="text" 
-          id="aramaGirdisi" 
-          oninput="harfAra()" 
-          placeholder="Harf ara (Örn: Elif, Be)..." 
-          class="w-full px-4 py-2.5 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm text-slate-700 shadow-sm"
-        >
-      </div>
-    </header>
-
-    <!-- ================================================================= -->
-    <!-- 2. SEÇİLİ HARF DETAY KART (SEÇİLİ HARF PANO)                    -->
-    <!-- ================================================================= -->
-    <section id="harfDetayKutusu" class="bg-emerald-900 text-white p-6 md:p-8 rounded-3xl shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
-      
-      <!-- Sol ve Orta: Harf Sembolü ve Açıklaması -->
-      <div class="flex items-center space-x-6 w-full md:w-auto">
-        <!-- Harf Kutusu -->
-        <div id="detayArapca" class="text-5xl font-extrabold bg-emerald-800/80 w-24 h-24 rounded-2xl flex items-center justify-center border border-emerald-700/50 shadow-inner shrink-0">
-          ث
-        </div>
-        
-        <!-- Harf Detayı -->
-        <div class="space-y-1">
-          <span class="text-emerald-300 text-xs font-bold uppercase tracking-wider block">SEÇİLİ HARF</span>
-          <h2 id="detayIsim" class="text-3xl font-extrabold text-white">Se</h2>
-          <p id="detayOkunus" class="text-emerald-100 text-sm leading-relaxed">
-            Türkçe Okunuşu: Peltek S sesidir. Dil ucu ön dişlerin arasından hafifçe çıkarılır.
-          </p>
-          
-          <!-- Gelişmiş Özellik: Harf Konumları (Baştaki, Ortadaki, Sondaki) -->
-          <div class="pt-2 flex items-center space-x-3 text-xs text-emerald-200">
-            <span>Yazılış Halleri:</span>
-            <span id="formBas" class="bg-emerald-800 px-2 py-1 rounded">Başta: ﺛ</span>
-            <span id="formOrta" class="bg-emerald-800 px-2 py-1 rounded">Orta: ﺜ</span>
-            <span id="formSon" class="bg-emerald-800 px-2 py-1 rounded">Son: ﺚ</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sağ: Sesli Dinle Butonu -->
-      <button onclick="sesCal()" class="bg-amber-400 hover:bg-amber-500 text-emerald-950 font-bold px-6 py-3.5 rounded-xl shadow-md transition flex items-center gap-2 shrink-0 transform active:scale-95">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-        </svg>
-        <span>Sesli Dinle</span>
-      </button>
-    </section>
-
-    <!-- ================================================================= -->
-    <!-- 3. HARF KARTLARI IZGARASI (GRID - 28 ARAPÇA HARF)              -->
-    <!-- ================================================================= -->
-    <section>
-      <div id="harfKonteyneri" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-3.5">
-        <!-- Harf kartları JavaScript ile otomatik dizilecektir -->
-      </div>
-    </section>
-
-  </div>
+<body class="bg-slate-100 flex flex-col min-h-screen overflow-hidden">
 
   <!-- ================================================================= -->
-  <!-- JAVASCRIPT KONTROL DİZİNİ                                         -->
+  <!-- 1. SABİT ÜST GEZİNTİ MENÜSÜ (HEADER)                            -->
+  <!-- ================================================================= -->
+  <header class="bg-emerald-900 text-white shadow-md z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      
+      <!-- Marka Logo ve Başlık -->
+      <div class="flex items-center space-x-2 cursor-pointer" onclick="modulYukle('elifba')">
+        <span class="text-2xl font-black tracking-wider text-amber-400">MAHSUSA</span>
+        <span class="text-xl font-bold text-white">KUR'AN</span>
+      </div>
+
+      <!-- Modül Seçim Butonları -->
+      <nav class="flex items-center space-x-1 md:space-x-3 text-sm font-medium">
+        <button 
+          id="btn-elifba" 
+          onclick="modulYukle('elifba')" 
+          class="px-4 py-2 rounded-xl bg-emerald-800 text-amber-300 font-bold transition">
+          Elifba Eğitimi
+        </button>
+        
+        <button 
+          id="btn-yarisma" 
+          onclick="modulYukle('yarisma')" 
+          class="px-4 py-2 rounded-xl hover:bg-emerald-800 transition">
+          Siyer Yarışması
+        </button>
+        
+        <button 
+          id="btn-paket" 
+          onclick="modulYukle('paket')" 
+          class="bg-amber-400 hover:bg-amber-500 text-emerald-950 font-bold px-4 py-2 rounded-xl transition">
+          9'lu Özel Paket
+        </button>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- ================================================================= -->
+  <!-- 2. DİNAMİK MODÜL YÜKLEME ALANI (MAIN)                            -->
+  <!-- ================================================================= -->
+  <main class="flex-grow w-full bg-slate-100">
+    <!-- İlgili modül dosyası buraya yüklenir (Varsayılan: Elifba Modülü) -->
+    <iframe id="modulCerceve" src="./modules/elifba/index.html" class="modul-kapsayici"></iframe>
+  </main>
+
+  <!-- ================================================================= -->
+  <!-- 3. BİRLEŞTİRME VE YÖNLENDİRME SCRIPT'İ                             -->
   <!-- ================================================================= -->
   <script>
-    // 1. TAM ARAPÇA ALFABESİ (28 HARF DETAYLI VERİ SETİ)
-    const ELIFBA_VERILERI = [
-      { id: 1, sembol: 'ا', isim: 'Elif', latin: 'A / E', aciklama: 'Uzatma yapmadan ince A veya E sesi ile okunur.', bas: 'ا', orta: 'ﺎ', son: 'ﺎ' },
-      { id: 2, sembol: 'ب', isim: 'Be', latin: 'B', aciklama: 'Dudaklar birbirine bastırılarak çıkarılan B sesidir.', bas: 'ﺑ', orta: 'ﺒ', son: 'ﺐ' },
-      { id: 3, sembol: 'ت', isim: 'Te', latin: 'T', aciklama: 'Dil ucunun üst ön dişlerin etlerine değdirilmesiyle çıkan T sesidir.', bas: 'ﺗ', orta: 'ﺘ', son: 'ﺖ' },
-      { id: 4, sembol: 'ث', isim: 'Se', latin: 'S (Peltek)', aciklama: 'Peltek S sesidir. Dil ucu ön dişlerin arasından hafifçe çıkarılır.', bas: 'ﺛ', orta: 'ﺜ', son: 'ﺚ' },
-      { id: 5, sembol: 'ج', isim: 'Cim', latin: 'C', aciklama: 'Dil ortasının damak ortasına değdirilmesiyle çıkan C sesidir.', bas: 'ﺟ', orta: 'ﺠ', son: 'ﺞ' },
-      { id: 6, sembol: 'ح', isim: 'Ha', latin: 'H (Boğaz)', aciklama: 'Boğazın ortasından sıkılarak çıkarılan keskin H sesidir.', bas: 'ﺣ', orta: 'ﺤ', son: 'ﺢ' },
-      { id: 7, sembol: 'خ', isim: 'Hı', latin: 'KH (Hırıltılı)', aciklama: 'Boğazın ağza en yakın yerinden hırıltılı olarak çıkarılan kalın ses.', bas: 'ﺧ', orta: 'ﺨ', son: 'ﺦ' },
-      { id: 8, sembol: 'د', isim: 'Dal', latin: 'D', aciklama: 'Dil ucunun üst ön diş etlerine değdirilmesiyle çıkarılan D sesidir.', bas: 'د', orta: 'ﺪ', son: 'ﺪ' },
-      { id: 9, sembol: 'ذ', isim: 'Zal', latin: 'Z (Peltek)', aciklama: 'Peltek Z sesidir. Dil ucu ön dişlerin arasından hafifçe çıkarılır.', bas: 'ذ', orta: 'ﺬ', son: 'ﺬ' },
-      { id: 10, sembol: 'ر', isim: 'Ra', latin: 'R', aciklama: 'Dil ucunun arkasının üst ön diş etlerine değdirilmesiyle çıkarılır.', bas: 'ر', orta: 'ﺮ', son: 'ﺮ' },
-      { id: 11, sembol: 'ز', isim: 'Ze', latin: 'Z', aciklama: 'Keskin Z sesidir. Ön dişlerin kesici uçlarına değdirilerek çıkarılır.', bas: 'ز', orta: 'ﺰ', son: 'ﺰ' },
-      { id: 12, sembol: 'س', isim: 'Sin', latin: 'S', aciklama: 'Keskin S sesidir. Dil ucunun alt ön dişlerin iç yüzüne değdirilmesiyle çıkar.', bas: 'ﺳ', orta: 'ﺴ', son: 'ﺲ' },
-      { id: 13, sembol: 'ش', isim: 'Şin', latin: 'Ş', aciklama: 'Dil ortasının üst damağa yükseltilmesiyle çıkan Ş sesidir.', bas: 'ﺷ', orta: 'ﺸ', son: 'ﺶ' },
-      { id: 14, sembol: 'ص', isim: 'Sad', latin: 'S (Kalın)', aciklama: 'Kalın ve tok S sesidir. Ağız dolusu okunur.', bas: 'ﺻ', orta: 'ﺼ', son: 'ﺺ' },
-      { id: 15, sembol: 'ض', isim: 'Dat', latin: 'D/Z (Kalın)', aciklama: 'Dil yanlarının üst azı dişlere değdirilmesiyle çıkan kalın ses.', bas: 'ﺿ', orta: 'ﻀ', son: 'ﺾ' },
-      { id: 16, sembol: 'ط', isim: 'Tı', latin: 'T (Kalın)', aciklama: 'Kalın ve tok T sesidir. Dil üst ön diş etlerine basılarak çıkarılır.', bas: 'ﻃ', orta: 'ﻄ', son: 'ﻂ' },
-      { id: 17, sembol: 'ظ', isim: 'Zı', latin: 'Z (Kalın Peltek)', aciklama: 'Kalın ve peltek Z sesidir. Ağız doldurularak söylenir.', bas: 'ﻇ', orta: 'ﻈ', son: 'ﻆ' },
-      { id: 18, sembol: 'ع', isim: 'Ayn', latin: '‘A', aciklama: 'Boğazın ortası sıkılarak çıkarılan özel boğaz sesidir.', bas: 'ﻋ', orta: 'ﻌ', son: 'ﻊ' },
-      { id: 19, sembol: 'غ', isim: 'Gayn', latin: 'G (Yumuşak)', aciklama: 'Boğazın ağza en yakın kısmından çıkan yumuşak G sesidir.', bas: 'ﻏ', orta: 'ﻐ', son: 'ﻎ' },
-      { id: 20, sembol: 'ف', isim: 'Fe', latin: 'F', aciklama: 'Üst ön dişlerin uçlarının alt dudağın içine değdirilmesiyle çıkar.', bas: 'ﻓ', orta: 'ﻔ', son: 'ﻒ' },
-      { id: 21, sembol: 'ق', isim: 'Kaf', latin: 'K (Kalın)', aciklama: 'Boğazın köküne yakın kısımdan çıkan kalın K sesidir.', bas: 'ﻗ', orta: 'ﻘ', son: 'ﻖ' },
-      { id: 22, sembol: 'ك', isim: 'Kef', latin: 'K (İnce)', aciklama: 'Dil kökünün biraz önünden çıkan ince K sesidir.', bas: 'ﻛ', orta: 'ﻜ', son: 'ﻚ' },
-      { id: 23, sembol: 'ل', isim: 'Lam', latin: 'L', aciklama: 'Dil ucunun ve yanlarının üst damağa değdirilmesiyle çıkan L sesidir.', bas: 'ﻟ', orta: 'ﻠ', son: 'ﻞ' },
-      { id: 24, sembol: 'م', isim: 'Mim', latin: 'M', aciklama: 'Dudakların iç kısımlarının birbirine değdirilmesiyle çıkan M sesidir.', bas: 'ﻣ', orta: 'ﻤ', son: 'ﻢ' },
-      { id: 25, sembol: 'ن', isim: 'Nun', latin: 'N', aciklama: 'Dil ucunun üst ön diş etlerine değdirilmesiyle çıkan N sesidir.', bas: 'ﻧ', orta: 'ﻨ', son: 'ﻦ' },
-      { id: 26, sembol: 'و', isim: 'Vav', latin: 'V / W', aciklama: 'Dudakların ileriye doğru yuvarlatılmasıyla çıkan V sesidir.', bas: 'و', orta: 'ﻮ', son: 'ﻮ' },
-      { id: 27, sembol: 'ه', isim: 'He', latin: 'H (İnce)', aciklama: 'Boğazın en altından göğüsten çıkan göğüs H sesidir.', bas: 'ﻫ', orta: 'ﻬ', son: 'ﻪ' },
-      { id: 28, sembol: 'ي', isim: 'Ya', latin: 'Y', aciklama: 'Dil ortasının üst damağa kaldırılmasıyla çıkan Y sesidir.', bas: 'ﻳ', orta: 'ﻴ', son: 'ﻲ' }
-    ];
-
-    // Şuan seçili olan aktif harf (Varsayılan: Se harfi)
-    let aktifHarf = ELIFBA_VERILERI[3]; // Se harfi
-
     /**
-     * 2. HARFLERİ GRID EKRANINA ÇİZEN FONKSİYON
+     * Seçilen modülü ana sayfadaki çerçeveye yükler ve buton durumlarını günceller
+     * @param {string} modulAdi - Yüklenecek modülün adı ('elifba', 'yarisma', 'paket')
      */
-    function harfleriEkranaBas(liste) {
-      const konteyner = document.getElementById('harfKonteyneri');
-      konteyner.innerHTML = '';
-
-      if (liste.length === 0) {
-        konteyner.innerHTML = `<div class="col-span-full text-center py-10 text-slate-500">Aradığınız harf bulunamadı.</div>`;
-        return;
+    function modulYukle(modulAdi) {
+      const cerceve = document.getElementById('modulCerceve');
+      
+      // 1. Modül Yolunu Belirle ve İframe İçeriğini Değiştir
+      if (modulAdi === 'elifba') {
+        cerceve.src = './modules/elifba/index.html';
+      } else if (modulAdi === 'yarisma') {
+        cerceve.src = './modules/yarisma/index.html';
+      } else if (modulAdi === 'paket') {
+        cerceve.src = './modules/paket/index.html';
       }
 
-      liste.forEach(harf => {
-        const kart = document.createElement('div');
-        
-        // Aktif harf seçiliyse etrafına yeşil halka (ring) koyuyoruz
-        const isSelected = harf.id === aktifHarf.id;
-        const activeClass = isSelected ? 'ring-2 ring-emerald-600 border-emerald-500 bg-emerald-50/30' : 'bg-white border-slate-200';
-
-        kart.className = `${activeClass} p-3.5 rounded-2xl border shadow-sm hover:shadow-md cursor-pointer text-center transition transform hover:-translate-y-0.5 flex flex-col items-center justify-center space-y-1 select-none`;
-        
-        kart.innerHTML = `
-          <span class="text-3xl font-bold text-emerald-900">${harf.sembol}</span>
-          <span class="text-xs font-bold text-slate-800">${harf.isim}</span>
-          <span class="text-[11px] text-slate-400 font-medium">(${harf.latin})</span>
-        `;
-
-        kart.onclick = () => harfSec(harf);
-        konteyner.appendChild(kart);
+      // 2. Aktif Buton Vurgusunu Güncelle
+      const butonlar = ['elifba', 'yarisma', 'paket'];
+      butonlar.forEach(id => {
+        const btn = document.getElementById(`btn-${id}`);
+        if (id === modulAdi) {
+          btn.classList.add('bg-emerald-800', 'text-amber-300', 'font-bold');
+        } else if (id !== 'paket') {
+          btn.classList.remove('bg-emerald-800', 'text-amber-300', 'font-bold');
+        }
       });
     }
-
-    /**
-     * 3. HARF SEÇİLDİĞİNDE AKTİF KARTI GÜNCELLEYEN FONKSİYON
-     */
-    function harfSec(harf) {
-      aktifHarf = harf;
-      document.getElementById('detayArapca').innerText = harf.sembol;
-      document.getElementById('detayIsim').innerText = harf.isim;
-      document.getElementById('detayOkunus').innerText = `Türkçe Okunuşu: ${harf.aciklama}`;
-      
-      // Harf Konumları Bilgisini Güncelle
-      document.getElementById('formBas').innerText = `Başta: ${harf.bas}`;
-      document.getElementById('formOrta').innerText = `Orta: ${harf.orta}`;
-      document.getElementById('formSon').innerText = `Son: ${harf.son}`;
-
-      // Kart listesini yeniden çizerek aktif harf vurgusunu güncelle
-      const mevcutArama = document.getElementById('aramaGirdisi').value.toLowerCase();
-      if (mevcutArama) {
-        harfAra();
-      } else {
-        harfleriEkranaBas(ELIFBA_VERILERI);
-      }
-    }
-
-    /**
-     * 4. ARAMA FONKSİYONU
-     */
-    function harfAra() {
-      const aramaMetni = document.getElementById('aramaGirdisi').value.toLowerCase();
-      const filtrelenmis = ELIFBA_VERILERI.filter(h => 
-        h.isim.toLowerCase().includes(aramaMetni) || 
-        h.latin.toLowerCase().includes(aramaMetni)
-      );
-      harfleriEkranaBas(filtrelenmis);
-    }
-
-    /**
-     * 5. SES ÇALMA FONKSİYONU
-     */
-    function sesCal() {
-      // Ses dosyası entegrasyonu (Örn: /assets/audio/se.mp3)
-      // audio.src = `/assets/audio/${aktifHarf.isim.toLowerCase()}.mp3`;
-      alert(`"${aktifHarf.isim}" harfinin sesi dinletiliyor...`);
-    }
-
-    // SAYFA İLK YÜKLENDİĞİNDE BAŞLAT
-    document.addEventListener('DOMContentLoaded', () => {
-      harfSec(aktifHarf);
-    });
   </script>
 </body>
 </html>

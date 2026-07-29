@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Siyer ve Bilgi Yarışması - Mahsusa Kur'an</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans p-4 md:p-8 min-h-screen flex items-center justify-center">
+
+  <div class="max-w-2xl w-full mx-auto">
+    
+    <!-- ================================================================= -->
+    <!-- EKRAN 1: BAŞLANGIÇ EKRANI                                         -->
+    <!-- ================================================================= -->
+    <div id="baslangicEkrani" class="bg-white p-8 rounded-3xl shadow-lg border border-slate-200 text-center space-y-6">
+      <div class="w-20 h-20 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center text-4xl mx-auto shadow-inner">
+        🏆
+      </div>
+      <div>
+        <h1 class="text-3xl font-extrabold text-emerald-900">Siyer ve Dini Bilgiler Yarışması</h1>
+        <p class="text-slate-600 text-sm mt-2">Peygamber Efendimizin (s.a.v.) hayatı ve temel dini bilgiler üzerine bilginizi test edin.</p>
+      </div>
+      <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs text-slate-500 space-y-1">
+        <p>• Her doğru cevap **20 Puan** kazandırır.</p>
+        <p>• Yanlış cevaplarda puan kaybı yaşanmaz.</p>
+      </div>
+      <button onclick="yarisimayiBaslat()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-4 rounded-2xl shadow-md transition transform active:scale-95 text-lg">
+        Yarışmaya Başla
+      </button>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- EKRAN 2: AKTİF SORU EKRANI (Varsayılan olarak gizli)             -->
+    <!-- ================================================================= -->
+    <div id="soruEkrani" class="hidden bg-white p-6 md:p-8 rounded-3xl shadow-lg border border-slate-200 space-y-6">
+      
+      <!-- Üst Bilgi Barı (İlerleme ve Puan) -->
+      <div class="flex justify-between items-center border-b pb-4 text-sm font-semibold text-slate-500">
+        <span id="soruSayaciText" class="text-emerald-800">Soru 1 / 5</span>
+        <span id="puanText" class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-bold">Puan: 0</span>
+      </div>
+
+      <!-- İlerleme Çubuğu (Progress Bar) -->
+      <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+        <div id="ilerlemeCubugu" class="bg-emerald-600 h-full w-0 transition-all duration-300"></div>
+      </div>
+
+      <!-- Soru Metni -->
+      <h2 id="soruMetni" class="text-xl md:text-2xl font-bold text-slate-800 leading-snug">
+        Soru yükleniyor...
+      </h2>
+
+      <!-- Şıklar Listesi -->
+      <div id="siklarKonteyneri" class="space-y-3">
+        <!-- Şıklar JavaScript ile dinamik olarak eklenecektir -->
+      </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- EKRAN 3: SONUÇ VE SKOR EKRANI (Varsayılan olarak gizli)          -->
+    <!-- ================================================================= -->
+    <div id="sonucEkrani" class="hidden bg-white p-8 rounded-3xl shadow-lg border border-slate-200 text-center space-y-6">
+      <div class="w-20 h-20 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-4xl mx-auto">
+        🎉
+      </div>
+      <h2 class="text-3xl font-extrabold text-slate-800">Tebrikler! Testi Tamamladınız</h2>
+      
+      <!-- Skor Özeti -->
+      <div class="grid grid-cols-2 gap-4 max-w-sm mx-auto">
+        <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-200">
+          <span class="block text-2xl font-black text-emerald-700" id="sonucDogru">0</span>
+          <span class="text-xs text-slate-500 font-semibold">Doğru Cevap</span>
+        </div>
+        <div class="bg-amber-50 p-4 rounded-2xl border border-amber-200">
+          <span class="block text-2xl font-black text-amber-700" id="sonucPuan">0</span>
+          <span class="text-xs text-slate-500 font-semibold">Toplam Puan</span>
+        </div>
+      </div>
+
+      <button onclick="yarisimayiBaslat()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-4 rounded-2xl shadow-md transition transform active:scale-95">
+        Yeniden Başla
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- JAVASCRIPT KONTROL VE SORU MOTORU                                 -->
+  <!-- ================================================================= -->
+  <script>
+    // 1. SORU BANKASI (Dinamik Genişletilebilir Veri Yapısı)
+    const SORULAR = [
+      {
+        id: 1,
+        soru: "Peygamber Efendimiz (s.a.v.) hangi şehirde dünyaya gelmiştir?",
+        siklar: ["Medine", "Mekke", "Taif", "Kudüs"],
+        dogruCevap: 1 // Mekke (0 tabanlı indeks)
+      },
+      {
+        id: 2,
+        soru: "Kur'an-ı Kerim'in ilk inen suresi hangisidir?",
+        siklar: ["Fatiha Suresi", "Yasin Suresi", "Alak Suresi", "Ihlas Suresi"],
+        dogruCevap: 2 // Alak Suresi
+      },
+      {
+        id: 3,
+        soru: "Peygamber Efendimize (s.a.v.) verilen 'Güvenilir' anlamındaki lakap hangisidir?",
+        siklar: ["El-Emin", "El-Faruk", "El-Sıddık", "El-Seyf"],
+        dogruCevap: 0 // El-Emin
+      },
+      {
+        id: 4,
+        soru: "İlk kadın müslüman kimdir?",
+        siklar: ["Hz. Aişe (r.a.)", "Hz. Hatice (r.a.)", "Hz. Fatıma (r.a.)", "Hz. Meryem (r.a.)"],
+        dogruCevap: 1 // Hz. Hatice
+      },
+      {
+        id: 5,
+        soru: "Mekke'den Medine'ye yapılan tarihi yolculuğa ne ad verilir?",
+        siklar: ["Miraç", "Hicret", "Mevlit", "Gaza"],
+        dogruCevap: 1 // Hicret
+      }
+    ];
+
+    // OYUN DURUMU DEĞİŞKENLERİ
+    let mevcutSoruIndeksi = 0;
+    let toplamPuan = 0;
+    let dogruSayisi = 0;
+    let tiklamaKilitli = false; // Çift tıklamayı önlemek için
+
+    /**
+     * 2. YARIŞMAYI BAŞLATAN VEYA SIFIRLAYAN FONKSİYON
+     */
+    function yarisimayiBaslat() {
+      mevcutSoruIndeksi = 0;
+      toplamPuan = 0;
+      dogruSayisi = 0;
+      tiklamaKilitli = false;
+
+      // Ekran Görünürlüklerini Ayarla
+      document.getElementById('baslangicEkrani').classList.add('hidden');
+      document.getElementById('sonucEkrani').classList.add('hidden');
+      document.getElementById('soruEkrani').classList.remove('hidden');
+
+      soruyuYukle();
+    }
+
+    /**
+     * 3. AKTİF SORUYU EKRANA YÜKLEYEN FONKSİYON
+     */
+    function soruyuYukle() {
+      tiklamaKilitli = false;
+      const aktifSoru = SORULAR[mevcutSoruIndeksi];
+
+      // Üst Bilgileri Güncelle
+      document.getElementById('soruSayaciText').innerText = `Soru ${mevcutSoruIndeksi + 1} / ${SORULAR.length}`;
+      document.getElementById('puanText').innerText = `Puan: ${toplamPuan}`;
+      
+      // İlerleme Çubuğunu Güncelle (%)
+      const ilerlemeYuzdesi = ((mevcutSoruIndeksi + 1) / SORULAR.length) * 100;
+      document.getElementById('ilerlemeCubugu').style.width = `${ilerlemeYuzdesi}%`;
+
+      // Soru Metni
+      document.getElementById('soruMetni').innerText = aktifSoru.soru;
+
+      // Şıkları Oluştur
+      const siklarKonteyneri = document.getElementById('siklarKonteyneri');
+      siklarKonteyneri.innerHTML = '';
+
+      aktifSoru.siklar.forEach((sikMetni, indeks) => {
+        const buton = document.createElement('button');
+        buton.className = `w-full text-left p-4 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-emerald-50 hover:border-emerald-300 transition font-medium text-slate-700 flex justify-between items-center group`;
+        
+        buton.innerHTML = `
+          <span>${sikMetni}</span>
+          <span class="w-6 h-6 rounded-full border border-slate-300 group-hover:border-emerald-500 flex items-center justify-center text-xs text-slate-400 group-hover:text-emerald-600 font-bold">
+            ${String.fromCharCode(65 + indeks)}
+          </span>
+        `;
+
+        buton.onclick = () => cevapKontrolEt(indeks, buton);
+        siklarKonteyneri.appendChild(buton);
+      });
+    }
+
+    /**
+     * 4. CEVABI KONTROL EDEN VE REAKSİYON VEREN FONKSİYON
+     */
+    function cevapKontrolEt(secilenIndeks, secilenButon) {
+      if (tiklamaKilitli) return; // Kullanıcı karar verdikten sonra tıklamayı kilitle
+      tiklamaKilitli = true;
+
+      const aktifSoru = SORULAR[mevcutSoruIndeksi];
+      const tumButonlar = document.getElementById('siklarKonteyneri').children;
+
+      if (secilenIndeks === aktifSoru.dogruCevap) {
+        // DOĞRU CEVAP
+        secilenButon.className = "w-full text-left p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-100 text-emerald-900 font-bold flex justify-between items-center";
+        toplamPuan += 20;
+        dogruSayisi++;
+      } else {
+        // YANLIŞ CEVAP
+        secilenButon.className = "w-full text-left p-4 rounded-2xl border-2 border-red-500 bg-red-100 text-red-900 font-bold flex justify-between items-center";
+        
+        // Doğru şıkkı yeşil göster
+        tumButonlar[aktifSoru.dogruCevap].className = "w-full text-left p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 font-bold flex justify-between items-center";
+      }
+
+      // 1.2 saniye sonra bir sonraki soruya geç
+      setTimeout(() => {
+        mevcutSoruIndeksi++;
+        if (mevcutSoruIndeksi < SORULAR.length) {
+          soruyuYukle();
+        } else {
+          yarisimayiBitir();
+        }
+      }, 1200);
+    }
+
+    /**
+     * 5. TEST BİTTİĞİNDE SONUÇ EKRANINI AÇAN FONKSİYON
+     */
+    function yarisimayiBitir() {
+      document.getElementById('soruEkrani').classList.add('hidden');
+      document.getElementById('sonucEkrani').classList.remove('hidden');
+
+      document.getElementById('sonucDogru').innerText = `${dogruSayisi} / ${SORULAR.length}`;
+      document.getElementById('sonucPuan').innerText = toplamPuan;
+    }
+  </script>
+</body>
+</html>
