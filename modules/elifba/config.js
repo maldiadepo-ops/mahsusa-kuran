@@ -1,40 +1,41 @@
 /**
  * Mahsusa Kur'an - Elifba Modül Yapılandırması
- * GitHub Pages & KVKK / Telif Uyumlu Mimaridir.
+ * Domain: mahsusakuran.com
+ * Mimarisi: KVKK, Patent & Telif Korumalı Bağımsız Modül
  */
 
 const ELIFBA_CONFIG = {
-    MODULE_NAME: "Mahsusa Kur'an - Elifba Modülü",
-    VERSION: "1.0.0",
+    MODULE_NAME: "Mahsusa Kur'an - Elifba Portal",
+    DOMAIN: "mahsusakuran.com",
+    VERSION: "2.0.0",
     
+    // Kurumsal ve Hukuki Beyanlar
     LEGAL: {
-        COPYRIGHT: "© 2026 Mahsusa Kur'an. Tüm hakları saklıdır.",
-        KVKK_COMPLIANT: true,
-        DATA_PRIVACY: "Bu modülde kişisel veri işlenmez. Tüm ilerleme tarayıcı yerel hafızasında (localStorage) saklanır."
+        COPYRIGHT: "© 2026 Mahsusa Kur'an (mahsusakuran.com). Tüm Hakları Saklıdır.",
+        KVKK_NOTICE: "Bu modülde KVKK gereği kişisel veri işlenmez. Öğrenci ilerlemesi cihazınızda tutulur.",
+        PATENT_NOTE: "Mahsusa Kur'an interaktif eğitim modülleri ve arayüz dizaynı koruma altındadır."
     },
 
     SESSION: {
-        STORAGE_KEY: "mahsusa_elifba_progress_v1",
-        GUEST_ID_PREFIX: "guest_"
+        STORAGE_KEY: "mahsusakuran_elifba_v2",
+        GUEST_PREFIX: "mahsusa_guest_"
     }
 };
 
 function getOrInitSession() {
-    let sessionData = localStorage.getItem(ELIFBA_CONFIG.SESSION.STORAGE_KEY);
-    
-    if (!sessionData) {
-        const guestId = ELIFBA_CONFIG.SESSION.GUEST_ID_PREFIX + Math.random().toString(36).substring(2, 9);
-        sessionData = {
-            userId: guestId,
+    let session = localStorage.getItem(ELIFBA_CONFIG.SESSION.STORAGE_KEY);
+    if (!session) {
+        session = {
+            userId: ELIFBA_CONFIG.SESSION.GUEST_PREFIX + Math.random().toString(36).substring(2, 8),
             isGuest: true,
-            completedLessons: [],
+            mode: "child", // Default: Çocuk Modu
+            completed: [],
             stars: 0,
-            mode: "adult"
+            lastAccess: new Date().toLocaleDateString('tr-TR')
         };
-        localStorage.setItem(ELIFBA_CONFIG.SESSION.STORAGE_KEY, JSON.stringify(sessionData));
+        localStorage.setItem(ELIFBA_CONFIG.SESSION.STORAGE_KEY, JSON.stringify(session));
     } else {
-        sessionData = JSON.parse(sessionData);
+        session = JSON.parse(session);
     }
-    
-    return sessionData;
+    return session;
 }
