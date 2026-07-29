@@ -11,15 +11,17 @@
     
     <style>
         .arabic-text { font-family: 'Amiri', serif; direction: rtl; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col justify-between">
 
     <!-- KURUMSAL HEADER -->
-    <header class="bg-white/90 backdrop-blur-md border-b border-emerald-100 p-4 sticky top-0 z-50 shadow-sm">
+    <header class="bg-white/95 backdrop-blur-md border-b border-emerald-100 p-4 sticky top-0 z-50 shadow-sm">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             
-            <!-- Kurumsal Logo & Amblem -->
+            <!-- Logo & Amblem -->
             <a href="../../index.html" class="flex items-center gap-3 group">
                 <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-500 to-sky-500 flex items-center justify-center text-white font-bold text-xl shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform">
                     🌱
@@ -30,7 +32,7 @@
                 </div>
             </a>
 
-            <!-- Geri Dönüş ve Güvenlik Rozeti -->
+            <!-- Rozet ve Yönlendirme -->
             <div class="flex items-center gap-3">
                 <span class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">
                     <i class="fa-solid fa-shield-halved"></i> KVKK & Patent Korumalı
@@ -45,10 +47,10 @@
 
     <!-- MAIN ROOT -->
     <main id="elifba-app-root" class="max-w-7xl mx-auto w-full p-4 sm:p-6 flex-1">
-        <!-- JS ile Dinamik Yüklenir -->
+        <!-- JS ile Yüklenir -->
     </main>
 
-    <!-- KURUMSAL FOOTER -->
+    <!-- FOOTER -->
     <footer class="bg-white border-t border-slate-200 p-6 text-center text-xs text-slate-500 space-y-2">
         <div class="font-semibold text-slate-700">Mahsusa Kur'an © 2026 | mahsusakuran.com</div>
         <p class="max-w-2xl mx-auto text-[11px] text-slate-400">
@@ -56,8 +58,8 @@
         </p>
     </footer>
 
-    <!-- SCRIPT'LER -->
-    <script src="config.js"></script>
-    <script src="elifba.js"></script>
+    <!-- SCRIPT'LER (?v=2.0.0 TAKISI ÖNBELLEĞİ ANINDA TEMİZLER) -->
+    <script src="config.js?v=2.0.0"></script>
+    <script src="elifba.js?v=2.0.0"></script>
 </body>
 </html>
