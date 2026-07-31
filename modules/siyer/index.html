@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siyer Yarışması — Mahsusa Kur'an</title>
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<style>
+  .wrap{ max-width:640px; margin:0 auto; padding:32px 20px 60px; }
+  h1{ font-size:1.5rem; margin:0 0 6px; }
+  .lead{ color:var(--ink-dim); margin:0 0 24px; }
+  .tabs{ display:flex; gap:6px; margin-bottom:18px; flex-wrap:wrap; }
+  .tab-btn{ font-size:.78rem; padding:8px 14px; }
+  .quiz-top{ display:flex; justify-content:space-between; font-size:.85rem; color:var(--green-dark); margin-bottom:10px; font-weight:600; }
+  .q-box{ text-align:center; font-weight:600; font-size:1rem; margin-bottom:16px; white-space:pre-line; }
+  .opt-btn{ width:100%; text-align:left; margin-bottom:8px; padding:12px 14px; }
+  .lb-row{ padding:8px 0; border-bottom:1px solid var(--line); font-size:.9rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🏆 Siyer Yarışması — İslam & Kur'an Soru Bankası</h1>
+  <p class="lead">10 soruluk bloklar halinde bilgini test et, puan topla, liderlik tablosunda yerini gör.</p>
+
+  <div class="tabs">
+    <button class="btn btn-ghost tab-btn" onclick="switchTab('game')">Soru Ekranı</button>
+    <button class="btn btn-ghost tab-btn" onclick="switchTab('daily')">Günlük Tablo</button>
+    <button class="btn btn-ghost tab-btn" onclick="switchTab('weekly')">Haftalık / Aylık</button>
+    <button class="btn btn-ghost tab-btn" onclick="switchTab('yearly')">Yıl Sonu</button>
+  </div>
+
+  <div id="quizGameArea" class="m-card">
+    <div class="quiz-top">
+      <span id="quizProgressNum">Soru: 1 / 10</span>
+      <span id="quizScoreNum">Puan: 0</span>
+    </div>
+    <div class="q-box" id="qText">Soru yükleniyor...</div>
+    <div id="qOptions"></div>
+  </div>
+
+  <div id="quizLeaderboardArea" class="m-card" style="display:none;">
+    <div style="font-weight:700; color:var(--green-dark); margin-bottom:10px;" id="lbTitle">📅 Günlük Liderlik Tablosu</div>
+    <div id="lbContent">
+      <div class="lb-row">1. Ahmet Y. (Malatya) — 950 Puan (%95 Başarı)</div>
+      <div class="lb-row">2. Zeynep K. (İstanbul) — 900 Puan (%90 Başarı)</div>
+      <div class="lb-row">3. Siz — <span id="userLbScore">150</span> Puan</div>
+      <div class="lb-row">4. Mehmet A. (Ankara) — 820 Puan (%82 Başarı)</div>
+    </div>
+  </div>
+</div>
+
+<div class="m-footer">Mahsusa Kur'an — Siyer Yarışması modülü (v54)</div>
+
+<script src="../../assets/js/common.js"></script>
+<script>
+  mNavInject('../../', 'siyer');
+
+  const questionBank = [
+    { q: "Kur'an-ı Kerim'in ilk nazil olan suresi hangisidir?", options: ["Fâtiha Suresi", "Alak Suresi", "Bakara Suresi", "Yâsîn Suresi"], correct: 1 },
+    { q: "İslam'ın şartlarından zekat, kelime-i şehadetten sonra kaçıncı esastır?", options: ["1. Esas", "2. Esas", "3. Esas", "5. Esas"], correct: 2 },
+    { q: "Kur'an'da 'Kalbi Kur'an' olarak anılan sure hangisidir?", options: ["Mülk Suresi", "Yâsîn Suresi", "Fetih Suresi", "Rahmân Suresi"], correct: 1 },
+    { q: "Peygamber Efendimiz'in (s.a.v.) dünyaya teşrif ettikleri ay hangisidir?", options: ["Ramazan", "Rebiülevvel", "Muharrem", "Receb"], correct: 1 },
+    { q: "Kur'an-ı Kerim'de 'Besmele' ile başlamayan tek sure hangisidir?", options: ["Tevbe Suresi", "Enfâl Suresi", "Fâtiha Suresi", "Nasr Suresi"], correct: 0 },
+    { q: "Hangi peygamber ateşe atılmış ve ateş ona serinlik ve esenlik olmuştur?", options: ["Hz. Musa", "Hz. İbrahim", "Hz. Nuh", "Hz. Yusuf"], correct: 1 },
+    { q: "Kur'an-ı Kerim kaç cüzden oluşmaktadır?", options: ["20 Cüz", "30 Cüz", "40 Cüz", "60 Cüz"], correct: 1 },
+    { q: "Peygamberimizin Mekke'den Medine'ye göçüne ne ad verilir?", options: ["İsra", "Miraç", "Hicret", "Tevbe"], correct: 2 },
+    { q: "Kur'an'da adı geçen tek sahabî hangisidir?", options: ["Hz. Ebubekir", "Hz. Ömer", "Zeyd bin Harise", "Hz. Osman"], correct: 2 },
+    { q: "İslam'ın ilk müezzini kimdir?", options: ["Hz. Bilal-i Habeşi", "Hz. Hamza", "Hz. Ali", "Mus'ab bin Umeyr"], correct: 0 }
+  ];
+  let currentQIndex = 0;
+  let currentCorrectCount = 0;
+  let userScore = 150;
+
+  function loadQuestion() {
+    if (currentQIndex >= questionBank.length) {
+      const earned = currentCorrectCount * 10;
+      userScore += earned;
+      const successRate = Math.round((currentCorrectCount / questionBank.length) * 100);
+      document.getElementById('qText').innerText = `🎉 10'lu Sınav Tamamlandı!\nDoğru: ${currentCorrectCount} / ${questionBank.length} (%${successRate} Başarı)\nKazanılan Puan: +${earned}\nToplam Puanınız: ${userScore}`;
+      document.getElementById('qOptions').innerHTML = `<button class="btn btn-green" style="width:100%;" onclick="restartQuiz()">Tekrar Başlat</button>`;
+      document.getElementById('userLbScore').innerText = userScore;
+      return;
+    }
+
+    document.getElementById('quizProgressNum').innerText = `Soru: ${currentQIndex + 1} / ${questionBank.length}`;
+    document.getElementById('quizScoreNum').innerText = `Puan: ${currentCorrectCount * 10}`;
+
+    const qObj = questionBank[currentQIndex];
+    document.getElementById('qText').innerText = qObj.q;
+
+    const optionsArea = document.getElementById('qOptions');
+    optionsArea.innerHTML = "";
+    qObj.options.forEach((opt, idx) => {
+      const btn = document.createElement('button');
+      btn.className = "btn btn-ghost opt-btn";
+      btn.innerText = opt;
+      btn.onclick = () => {
+        const buttons = optionsArea.querySelectorAll('button');
+        buttons.forEach((b, i) => {
+          b.disabled = true;
+          if (i === qObj.correct) { b.style.background = "var(--green)"; b.style.color = "#fff"; b.style.borderColor = "var(--green)"; }
+          else if (i === idx) { b.style.background = "var(--danger)"; b.style.color = "#fff"; b.style.borderColor = "var(--danger)"; }
+        });
+        if (idx === qObj.correct) currentCorrectCount++;
+        setTimeout(() => { currentQIndex++; loadQuestion(); }, 1100);
+      };
+      optionsArea.appendChild(btn);
+    });
+  }
+
+  function restartQuiz() {
+    currentQIndex = 0; currentCorrectCount = 0;
+    loadQuestion();
+  }
+
+  function switchTab(tab) {
+    const gameArea = document.getElementById('quizGameArea');
+    const lbArea = document.getElementById('quizLeaderboardArea');
+    const lbTitle = document.getElementById('lbTitle');
+    if (tab === 'game') { gameArea.style.display = "block"; lbArea.style.display = "none"; }
+    else {
+      gameArea.style.display = "none"; lbArea.style.display = "block";
+      if (tab === 'daily') lbTitle.innerText = "📅 Günlük Liderlik Tablosu";
+      else if (tab === 'weekly') lbTitle.innerText = "📊 Haftalık & Aylık Sıralama Tablosu";
+      else if (tab === 'yearly') lbTitle.innerText = "🏆 Yıl Sonu Genel Şampiyonlar Listesi";
+    }
+  }
+
+  loadQuestion();
+</script>
+</body>
+</html>

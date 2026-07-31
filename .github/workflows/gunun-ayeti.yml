@@ -1,0 +1,34 @@
+name: Günün Ayeti Güncelle
+
+# Bu "robot" her gün 00:15 (Türkiye saati ≈ UTC+3, yani 21:15 UTC bir önceki gün) otomatik çalışır.
+# İstersen "workflow_dispatch" sayesinde GitHub üzerinden elle de tetikleyebilirsin (Actions sekmesi > Run workflow).
+on:
+  schedule:
+    - cron: "15 21 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  guncelle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kodu indir
+        uses: actions/checkout@v4
+
+      - name: Node.js kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Günün ayetini üret
+        run: node scripts/gunun-ayeti.mjs
+
+      - name: Değişikliği siteye kaydet
+        run: |
+          git config user.name "mahsusa-bot"
+          git config user.email "bot@mahsusakuran.com"
+          git add data/gunun-ayeti.json
+          git diff --quiet --cached || git commit -m "Günün ayeti güncellendi ($(date -u +%Y-%m-%d))"
+          git push

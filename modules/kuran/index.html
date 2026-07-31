@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kur'an Oku — Mahsusa Kur'an v54</title>
+    <link rel="stylesheet" href="../../assets/css/theme.css">
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="../../assets/js/common.js"></script>
+    <style>
+        body { display: flex; flex-direction:column; height: 100vh; overflow: hidden; }
+        .app-body{ display:flex; flex:1; min-height:0; }
+
+        .sidebar { width: 360px; background: var(--surface); padding: 16px; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; border-right: 1px solid var(--line); flex-shrink: 0; }
+        .sidebar h2 { color: var(--green-dark); font-size: 15px; text-align: center; display: flex; justify-content: space-between; align-items: center; margin:0; }
+        .user-badge { font-size: 10px; background: var(--paper); border: 1px solid var(--line-strong); padding: 3px 6px; border-radius: 4px; cursor: pointer; color: var(--green-dark); }
+        .user-badge:hover { background: var(--green); color: white; border-color:var(--green); }
+
+        .form-group { display: flex; flex-direction: column; gap: 3px; }
+        .btn-group { display: flex; gap: 5px; }
+
+        .search-box { background: var(--paper-tint-blue); border: 1px solid var(--blue); border-radius: 8px; padding: 8px; display: flex; flex-direction: column; gap: 5px; }
+        .search-btn { background: var(--blue); color: #fff; border: none; padding: 7px; border-radius: 6px; font-weight: bold; font-size: 11px; }
+        .search-btn:hover{ background:var(--blue-dark); }
+
+        .action-box { background: var(--paper-tint-green); border: 1px solid var(--line); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 6px; text-align: center; }
+        .action-box-title { font-size: 10.5px; color: var(--green-dark); font-weight: bold; text-transform: uppercase; }
+
+        .social-icon-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+        .icon-btn { background: var(--paper); border: 1px solid var(--line-strong); color: var(--ink); padding: 7px 2px; border-radius: 6px; font-size: 10px; font-weight: 600; }
+        .icon-btn:hover { background: var(--blue); color: #fff; border-color:var(--blue); }
+        .icon-copy-special { background: var(--green) !important; color: #fff !important; border-color: var(--green) !important; }
+        .icon-copy-special:hover { background: var(--green-dark) !important; }
+
+        .pipeline-box { background: var(--paper-tint-green); border: 1px dashed var(--green); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 6px; }
+
+        .widgets-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 6px; }
+        .widget-card { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 6px 2px; text-align: center; }
+        .widget-title { font-size: 8.5px; color: var(--ink-dim); text-transform: uppercase; font-weight: bold; }
+        .widget-val { font-size: 10px; color: var(--green-dark); font-weight: bold; margin-top: 2px; }
+
+        .research-panel { flex: 1; background: var(--paper); padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; border-right: 1px solid var(--line); }
+        .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--line); padding-bottom: 8px; }
+        .panel-title { font-size: 17px; color: var(--green-dark); font-weight: bold; }
+        .panel-meta { font-size: 11.5px; color: var(--ink-dim); font-weight: 600; }
+
+        .quran-read-box { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; position: relative; }
+        .quran-read-box.active-reading { background: var(--paper-tint-blue); border-color: var(--blue); }
+
+        .arabic-text { font-size: 26px; color: var(--ink); line-height: 2.2; font-family: 'Traditional Arabic', 'Amiri', serif; text-align: right; direction: rtl; }
+        .word-span { display: inline-block; padding: 0 4px; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+        .word-span:hover, .word-span.active-single { background: var(--green); color: #fff; }
+
+        .transliteration-text { font-size: 12.5px; color: var(--blue-dark); font-style: italic; margin-top: 6px; border-top: 1px dashed var(--line); padding-top: 6px; }
+
+        .wbw-section { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+        .wbw-section h3 { font-size: 11.5px; color: var(--green-dark); margin-bottom: 10px; text-transform: uppercase; }
+        .wbw-grid { display: flex; flex-wrap: wrap; gap: 8px; direction: rtl; }
+        .wbw-card { background: var(--paper); border: 1px solid var(--line-strong); border-radius: 8px; padding: 8px; min-width: 100px; flex: 1; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .wbw-card:hover, .wbw-card.active-single { background: var(--green); border-color: var(--green-dark); transform: translateY(-2px); color:#fff; }
+        .wbw-card:hover .wbw-tr, .wbw-card.active-single .wbw-tr{ color:#fff; }
+        .wbw-ar { font-family: 'Amiri', serif; font-size: 20px; color: inherit; font-weight: bold; }
+        .wbw-tr { font-size: 11px; color: var(--blue-dark); font-weight: 600; margin-top: 3px; direction: ltr; }
+        .wbw-trans { font-size: 9.5px; color: var(--green-dark); margin-top: 2px; direction: ltr; font-style: italic; }
+
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .info-box { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px; max-height: 200px; overflow-y: auto; }
+        .info-box h3 { font-size: 11.5px; color: var(--green-dark); margin-bottom: 6px; text-transform: uppercase; }
+        .info-box p { font-size: 12px; color: var(--ink); line-height: 1.4; margin:0; }
+        .info-box .sub { font-size: 10.5px; color: var(--ink-dim); margin-top: 4px; font-weight: 600; }
+
+        .card-preview-area { width: 320px; background: var(--surface); padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; flex-shrink: 0; }
+        .preview-card { background: linear-gradient(145deg, #ffffff 0%, #eef7f3 100%); border-radius: 16px; border: 1px solid var(--line); box-shadow: 0 10px 28px rgba(22,36,31,0.12); display: flex; flex-direction: column; justify-content: space-between; padding: 25px 18px; text-align: center; position: relative; }
+        .preview-card.format-reels { width: 260px; height: 460px; }
+        .preview-card.format-post { width: 300px; height: 300px; }
+
+        .card-header { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--green-dark); font-weight: 700; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+        .card-arabic { font-size: 18px; color: var(--ink); line-height: 1.8; font-family: 'Traditional Arabic', 'Amiri', serif; margin: 8px 0; }
+        .card-body { font-size: 11.5px; color: var(--ink); line-height: 1.5; font-style: italic; max-height: 220px; overflow-y: auto; padding: 0 6px; text-align: center; }
+        .card-footer { font-size: 9.5px; color: var(--ink-dim); font-weight: 700; letter-spacing: 1px; border-top: 1px solid var(--line); padding-bottom: 2px; padding-top: 8px; }
+
+        audio { width: 100%; border-radius: 6px; margin-top: 6px; }
+        .audio-controls-bar { display: flex; gap: 6px; margin-top: 6px; flex-wrap:wrap; }
+        #statusMsg { font-size: 10.5px; color: var(--green-dark); font-weight: 600; text-align: center; }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(22,36,31,0.35); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 999; }
+        .modal-card { background: var(--paper); border: 1px solid var(--line-strong); border-radius: 16px; padding: 22px; width: 450px; box-shadow: 0 20px 50px rgba(22,36,31,0.25); text-align: center; position: relative; max-height:85vh; overflow-y:auto; }
+        .modal-close { position: absolute; top: 10px; right: 14px; color: var(--ink-dim); font-size: 18px; font-weight: bold; cursor: pointer; }
+
+        .modal-ar { font-family: 'Amiri', serif; font-size: 38px; color: var(--green-dark); margin: 2px 0; }
+        .modal-tr { font-size: 16px; color: var(--ink); font-weight: bold; margin-bottom: 10px; }
+        .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
+        .modal-stat-box { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px; text-align: center; }
+        .modal-stat-val { font-size: 15px; font-weight: bold; color: var(--green-dark); }
+        .modal-stat-lbl { font-size: 9.5px; color: var(--ink-dim); text-transform: uppercase; margin-top: 2px; }
+        .modal-desc-box { background: var(--paper-tint-blue); border: 1px dashed var(--blue); border-radius: 8px; padding: 10px; text-align: left; font-size: 11.5px; color: var(--ink); line-height: 1.5; margin-top: 8px; }
+
+        .search-merged-modal { width: 700px; max-height: 85vh; display: flex; flex-direction: column; text-align: left; }
+        .concept-stats-box { background: var(--paper-tint-blue); border: 1px solid var(--blue); border-radius: 10px; padding: 12px; margin-top: 8px; }
+        .concept-title { font-size: 18px; color: var(--blue-dark); font-weight: bold; text-align: center; margin-bottom: 8px; }
+
+        .stat-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 8px; }
+        .stat-mini-card { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 6px; text-align: center; }
+        .stat-mini-val { font-size: 12px; font-weight: bold; color: var(--green-dark); }
+        .stat-mini-lbl { font-size: 8.5px; color: var(--ink-dim); text-transform: uppercase; }
+
+        .results-list-area { overflow-y: auto; display: flex; flex-direction: column; gap: 8px; margin-top: 10px; max-height: 40vh; padding-right: 4px; }
+        .result-card { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 10px; display: flex; flex-direction: column; gap: 4px; }
+        .result-card:hover { border-color: var(--green); }
+        .result-header { display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; font-weight: bold; color: var(--green-dark); }
+        .result-tr { font-size: 12px; color: var(--ink); line-height: 1.4; }
+        .select-ayah-btn { background: var(--green); color: white; border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; font-size: 10.5px; }
+        .select-ayah-btn:hover { background: var(--green-dark); }
+
+        @media(max-width: 1024px) {
+            body { height: auto; overflow: auto; }
+            .app-body{ flex-direction: column; }
+            .sidebar, .card-preview-area { width: 100%; height: auto; }
+            .research-panel { height: 600px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-body">
+    <div class="sidebar">
+        <h2>Kur'an Oku <span class="user-badge" id="userBadge" onclick="profilModalAc()">👤 Profilim</span></h2>
+        <div id="statusMsg">Anında Arama Aktif</div>
+
+        <div style="font-size:10.5px; color:var(--green-dark); text-align:center; font-weight:600; margin-bottom:4px;" id="widgetMiladiTop">—</div>
+
+        <div class="widgets-bar">
+            <div class="widget-card">
+                <div class="widget-title">Namaz</div>
+                <div class="widget-val" id="widgetNamaz">İkindi 16:45</div>
+            </div>
+            <div class="widget-card">
+                <div class="widget-title">Kıble</div>
+                <div class="widget-val" id="widgetKible">154° GD</div>
+            </div>
+            <div class="widget-card">
+                <div class="widget-title">Hicri</div>
+                <div class="widget-val" id="widgetHicri">—</div>
+            </div>
+            <div class="widget-card">
+                <div class="widget-title">Hava</div>
+                <div class="widget-val" id="widgetHava">32°C</div>
+            </div>
+        </div>
+
+        <div class="search-box">
+            <label style="color:var(--blue-dark);">🔍 Fihrist & Kavram Arama:</label>
+            <input type="text" id="searchInput" placeholder="Kavram Yazın... (Örn: sabır, cennet)" onkeypress="if(event.key==='Enter') kelimeAra()" />
+            <button class="search-btn" onclick="kelimeAra()">⚡ Kur'an Genelinde Ara</button>
+        </div>
+
+        <div class="btn-group">
+            <div class="form-group" style="flex:1;">
+                <label>Sure:</label>
+                <input type="number" id="sureNo" value="1" min="1" max="114" onchange="ayetiGetir()" />
+            </div>
+            <div class="form-group" style="flex:1;">
+                <label>Ayet:</label>
+                <input type="number" id="ayetNo" value="1" min="1" onchange="ayetiGetir()" />
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-blue" onclick="ayetiGetir()" style="flex:1;">🔍 Getir</button>
+            <button class="btn btn-blue" onclick="gununAyeti()" style="flex:1;">🎲 Günün Ayeti</button>
+            <button class="btn btn-ghost" onclick="favorileriGoster()" style="flex:1;">⭐ Favoriler</button>
+        </div>
+
+        <button class="btn btn-ghost" onclick="favoriEkleCikar()" style="width:100%;">⭐ Bu Ayeti Favorilere Ekle / Çıkar</button>
+
+        <div class="pipeline-box">
+            <div class="action-box-title">🚀 Sure Bazlı Otopilot (Batch)</div>
+            <div class="form-group" style="margin-bottom:4px;">
+                <label>Sure Seçimi (1-114):</label>
+                <select id="batchSurahSelect"></select>
+            </div>
+            <div class="btn-group">
+                <input type="number" id="batchStartAyah" value="1" min="1" style="width:60px;" placeholder="İlk Ayet" />
+                <input type="number" id="batchEndAyah" value="5" min="1" style="width:60px;" placeholder="Son Ayet" />
+                <button class="btn btn-green" onclick="topluOtopilotUret()" style="font-size:10px; padding:6px;">⚡ Toplu Kuyruk</button>
+            </div>
+        </div>
+
+        <hr style="border:0; border-top:1px solid var(--line);">
+
+        <div class="form-group">
+            <label style="color:var(--green-dark);">📚 İlmî Kütüphane & Eğitim:</label>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-top:2px;">
+                <a class="btn btn-ghost" style="text-align:center; text-decoration:none; font-size:10px; padding:6px;" href="../elifba/index.html">📖 Elifba Dersleri</a>
+                <a class="btn btn-ghost" style="text-align:center; text-decoration:none; font-size:10px; padding:6px;" href="../peygamberler/index.html">📜 Peygamberler</a>
+                <a class="btn btn-ghost" style="text-align:center; text-decoration:none; font-size:10px; padding:6px; grid-column:1 / -1;" href="../siyer/index.html">🏆 Siyer Yarışması</a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Tefsir Kıyaslama Kaynağı:</label>
+            <select id="tefsirKaynagiSecimi" onchange="ayetiGetir()">
+                <option value="kuran_yolu">Kur'an Yolu (Diyanet İşleri)</option>
+                <option value="ibn_kesir">İbn Kesir Muhtasarı</option>
+                <option value="elmalili">Elmalılı Hamdi Yazır Hak Dini</option>
+                <option value="taberi">Taberî Tefsiri Özeti</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Kırâat İmamı:</label>
+            <select id="qariSecimi" onchange="sesGuncelle()">
+                <option value="Alafasy_128kbps">Mishary Rashid Alafasy</option>
+                <option value="Abdul_Basit_Murattal_192kbps">AbdulBaset AbdulSamad</option>
+                <option value="Husary_128kbps">Mahmoud Khalil Al-Husary</option>
+                <option value="Abu_Bakr_Ash-Shaatree_128kbps">Abu Bakr Al-Shatri</option>
+                <option value="Abdurrahmaan_As-Sudais_192kbps">Abdul Rahman Al-Sudais</option>
+                <option value="Saood_ash-Shuraym_128kbps">Saud Al-Shuraim</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Lisan & Meal Seçimi:</label>
+            <select id="dilSecimi" onchange="ayetiGetir()">
+                <option value="tr.diyanet">Türkçe (Diyanet İşleri)</option>
+                <option value="tr.yazir">Türkçe (Elmalılı Hamdi Yazır)</option>
+                <option value="en.sahih">İngilizce (Sahih International)</option>
+                <option value="ur.jalandhry">Urduca (Pakistan)</option>
+                <option value="id.indonesian">Endonezce</option>
+                <option value="az.mammadaliyev">Azerbaycan Türkçesi</option>
+                <option value="uz.sodiq">Özbekçe</option>
+                <option value="fr.hamidullah">Fransızca (M. Hamidullah)</option>
+                <option value="de.bubenheim">Almanca (Frank Bubenheim)</option>
+                <option value="ru.kuliev">Rusça (Elmir Kuliev)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Kart İçeriği:</label>
+            <select id="kartIcerikTipi" onchange="ekraniGuncelle()">
+                <option value="meal">Dengeli Meal Göster</option>
+                <option value="tefsir">Kısa Tefsir Notunu Bas</option>
+                <option value="hadis">İlgili Sahih Hadisi Bas</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Kart Formatı:</label>
+            <select id="formatSecimi" onchange="formatDegistir()">
+                <option value="format-reels">9:16 Dikey (Reels / TikTok)</option>
+                <option value="format-post">1:1 Kare (Instagram Post)</option>
+            </select>
+        </div>
+
+        <div class="action-box">
+            <div class="action-box-title">🎬 Mobil Paylaşım Paneli</div>
+            <button class="btn btn-green" onclick="gorselIndir()">📸 Kartı HD İndir (PNG)</button>
+            <div class="social-icon-grid">
+                <button class="icon-btn" onclick="sosyalPaylas('wp')">WhatsApp</button>
+                <button class="icon-btn" onclick="sosyalPaylas('tg')">Telegram</button>
+                <button class="icon-btn" onclick="sosyalPaylas('x')">X</button>
+                <button class="icon-btn" onclick="sosyalPaylas('fb')">Facebook</button>
+                <button class="icon-btn" onclick="sosyalPaylas('pin')">Pinterest</button>
+                <button class="icon-btn" onclick="sosyalPaylas('vk')">VK</button>
+                <button class="icon-btn" onclick="sosyalPaylas('copy')">TikTok</button>
+                <button class="icon-btn icon-copy-special" onclick="sosyalPaylas('copy')">📋 Kopyala</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Paylaşım Metni:</label>
+            <textarea id="captionText" rows="6" style="resize: vertical;" readonly></textarea>
+        </div>
+    </div>
+
+    <div class="research-panel">
+        <div class="panel-header">
+            <div class="panel-title" id="resTitle">FÂTİHA SURESİ • 1:1</div>
+            <div class="panel-meta" id="resMetaHeader">CÜZ: 1 • SAYFA: 1 • MUSHAF: 1</div>
+        </div>
+
+        <div class="quran-read-box" id="quranReadBox">
+            <div class="arabic-text" id="resArabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+            <div class="transliteration-text" id="resLatin">Latin Okunuş: Bismillâhirrahmânirrahîm...</div>
+            <audio id="audioPlayer" controls src=""></audio>
+            <div class="audio-controls-bar">
+                <button class="btn btn-green" onclick="sesiOynat()">▶ Oynat</button>
+                <button class="btn btn-blue" onclick="sesiDurdur()">⏸ Durdur</button>
+                <button class="btn btn-ghost" onclick="sesiSifirla()">⏹ Stop</button>
+                <button class="btn btn-green" onclick="sesliOkuDil()">🔊 Doğal Sesli Oku</button>
+            </div>
+        </div>
+
+        <div class="wbw-section">
+            <h3 id="lblWbwHeader">Kelime Kelime Çözümleme & Okunuş</h3>
+            <div class="wbw-grid" id="wbwGrid"></div>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-box">
+                <h3 id="lblMealSecilen">Seçilen Dildeki Meal</h3>
+                <p id="resTranslationDiyanet">Rahmân ve Rahîm olan Allah'ın ismiyle.</p>
+            </div>
+            <div class="info-box">
+                <h3 id="lblMealKarsilastirma">Karşılaştırmalı İkinci Meal (Türkçe)</h3>
+                <p id="resTranslationYazir">Rahmân ve Rahîm olan Allah'ın adıyla.</p>
+            </div>
+            <div class="info-box">
+                <h3 id="lblTefsir">Kısa Tefsir & Hikmet</h3>
+                <p id="resTefsir">Her hayırlı işe Yüce Allah'ın mübarek ismiyle başlamanın gereğini ve O'nun sınırsız rahmetini ifade eder.</p>
+            </div>
+            <div class="info-box">
+                <h3 id="lblHadis">İlgili Sahih Hadis</h3>
+                <p id="resHadis">"Besmele ile başlanmayan her hayırlı iş güdüktür (bereketsizdir)."</p>
+                <div class="sub" id="resHadisMeta">Kaynak: Mahsusa Kur'an Stüdyosu</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-preview-area">
+        <div id="previewCard" class="preview-card format-reels">
+            <div class="card-header" id="cardHeader">FÂTİHA SURESİ • 1:1</div>
+            <div class="card-arabic" id="cardArabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+            <div class="card-body" id="cardBody">"Rahmân ve Rahîm olan Allah'ın ismiyle."</div>
+            <div class="card-footer" id="cardFooter">CÜZ: 1 • SAYFA: 1 • MUSHAF: 1</div>
+        </div>
+    </div>
+</div>
+
+<!-- TEMİZ FAVORİLER / ARAMA SONUÇ LİSTESİ MODALI (mConceptCount vb. hata giderildi) -->
+<div class="modal-overlay" id="searchResultModal">
+    <div class="modal-card search-merged-modal">
+        <div class="modal-close" onclick="searchModalKapat()">✕</div>
+        <div class="concept-stats-box" id="favModalHeader">
+            <div class="concept-title" id="mConceptTitle">⭐ Kaydedilen Favori Sure ve Ayetler</div>
+            <div class="stat-grid-4">
+                <div class="stat-mini-card"><div class="stat-mini-val" id="mConceptCount">—</div><div class="stat-mini-lbl">Sonuç</div></div>
+                <div class="stat-mini-card"><div class="stat-mini-val" id="mConceptEbjed">—</div><div class="stat-mini-lbl">Ebjed</div></div>
+                <div class="stat-mini-card"><div class="stat-mini-val" id="mConceptRoot">—</div><div class="stat-mini-lbl">Kök</div></div>
+                <div class="stat-mini-card"><div class="stat-mini-val" id="mConceptMeaning">—</div><div class="stat-mini-lbl">Tür</div></div>
+            </div>
+        </div>
+        <div style="font-size:11px; color:var(--ink-dim); margin-top:10px; font-weight:bold;" id="modalListTitle">Favori Listeniz:</div>
+        <div class="results-list-area" id="searchResultsList"></div>
+    </div>
+</div>
+
+<!-- KELİME ANALİZ MODALI -->
+<div class="modal-overlay" id="wordModal">
+    <div class="modal-card">
+        <div class="modal-close" onclick="modalKapat()">✕</div>
+        <div class="modal-ar" id="mWordAr">إِلَٰهٌ</div>
+        <div class="modal-tr" id="mWordTr">İlah / Mabud</div>
+        <div class="modal-grid">
+            <div class="modal-stat-box"><div class="modal-stat-val" id="mWordCount">147 Defa</div><div class="modal-stat-lbl">Kur'an Frekansı</div></div>
+            <div class="modal-stat-box"><div class="modal-stat-val" id="mWordEbjed">36</div><div class="modal-stat-lbl">Ebjed Değeri</div></div>
+            <div class="modal-stat-box"><div class="modal-stat-val" id="mWordRoot">ا-ل-ه</div><div class="modal-stat-lbl">Kök Bilgisi</div></div>
+            <div class="modal-stat-box"><div class="modal-stat-val" id="mWordRole">İsim</div><div class="modal-stat-lbl">Cümledeki Rolü</div></div>
+        </div>
+        <div class="modal-desc-box">
+            <strong style="color:var(--blue-dark);">📖 Açık ve Yalın Anlatım:</strong><br>
+            <span id="mWordDesc">Bu kelime ibadete ve kulluğa layık görülen tek hakiki mabud anlamındadır.</span>
+        </div>
+    </div>
+</div>
+
+<!-- PROFİL MODALI -->
+<div class="modal-overlay" id="profileModal">
+    <div class="modal-card" style="width: 500px; text-align: left;">
+        <div class="modal-close" onclick="profilModalKapat()">✕</div>
+        <h3 style="color:var(--green-dark); margin-bottom:10px; text-align:center;">👤 Kullanıcı Profili & İstatistikler</h3>
+        <div class="m-card" style="margin-bottom:12px;">
+            <div style="font-size:13px; font-weight:bold;" id="profileNameDisplay">Misafir Kullanıcı</div>
+            <div style="font-size:11px; color:var(--ink-dim);" id="profileMailDisplay">E-posta kayıtlı değil</div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;">
+            <div class="m-card" style="text-align:center;">
+                <div style="font-size:18px; font-weight:bold; color:var(--green-dark);" id="statScore">150 Puan</div>
+                <div style="font-size:10px; color:var(--ink-dim); text-transform:uppercase;">İlim Seviye Puanı</div>
+            </div>
+            <div class="m-card" style="text-align:center;">
+                <div style="font-size:18px; font-weight:bold; color:var(--blue-dark);" id="statReadCount">1 Okuma</div>
+                <div style="font-size:10px; color:var(--ink-dim); text-transform:uppercase;">Aynı Sureyi Tekrar</div>
+            </div>
+        </div>
+        <div class="m-card m-panel-tint-green" style="margin-bottom:12px;">
+            <div style="font-size:11.5px; font-weight:bold; color:var(--green-dark); margin-bottom:4px;">🔤 İsim Ebjed & Kur'an Frekans Analizi:</div>
+            <div style="font-size:12px;" id="profileNameEbjedBox">İsminiz üzerinden otomatik hesaplanıyor...</div>
+        </div>
+        <div style="font-size:11px; color:var(--ink-dim); margin-bottom:4px; font-weight:bold;">Son Kaldığınız Sure & Okuma Takibi:</div>
+        <div class="m-card m-panel-tint-blue" style="margin-bottom:10px; font-size:11.5px;" id="profileLastReadBox">Kaldığınız Yer: Fâtiha Suresi • 1:1</div>
+        <button class="btn btn-green" onclick="profilModalKapat()" style="width:100%;">Kapat</button>
+    </div>
+</div>
+
+<!-- ÜYELİK GİRİŞ MODALI -->
+<div class="modal-overlay" id="authModal">
+    <div class="modal-card">
+        <div class="modal-close" onclick="uyelikModalKapat()">✕</div>
+        <h3 style="color:var(--green-dark); margin-bottom:8px;">👤 Mahsusa Güvenli Üyelik</h3>
+        <div class="form-group" style="text-align:left; margin-bottom:6px;">
+            <label>Ad ve Soyad:</label>
+            <input type="text" id="authAdSoyad" placeholder="Adınız Soyadınız" style="width:100%;" />
+        </div>
+        <div class="form-group" style="text-align:left; margin-bottom:6px;">
+            <label>E-Posta Adresi:</label>
+            <input type="email" id="authEmail" placeholder="ornek@mail.com" style="width:100%;" />
+        </div>
+        <div class="form-group" style="text-align:left; margin-bottom:12px;">
+            <label>Tercih Edilen Meal Dili:</label>
+            <select id="authLangChoice" style="width:100%;">
+                <option value="tr.diyanet">Türkçe</option>
+                <option value="en.sahih">İngilizce</option>
+                <option value="uz.sodiq">Özbekçe</option>
+                <option value="id.indonesian">Endonezce</option>
+                <option value="fr.hamidullah">Fransızca</option>
+            </select>
+        </div>
+        <button class="btn btn-green" onclick="kullaniciGirisYap()" style="width:100%; margin-bottom:8px;">Kayıt Ol / Giriş Yap</button>
+        <button class="btn btn-ghost" onclick="misafirDevamEt()" style="width:100%;">Misafir Olarak Devam Et</button>
+    </div>
+</div>
+
+<div class="m-footer">Mahsusa Kur'an — Kur'an Oku modülü (v54)</div>
+
+<script src="kuran.js"></script>
+<script>mNavInject('../../', 'kuran');</script>
+</body>
+</html>

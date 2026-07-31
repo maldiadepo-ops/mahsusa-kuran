@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yasal & Gizlilik — Mahsusa Kur'an</title>
+<link rel="stylesheet" href="../assets/css/theme.css">
+<style>
+  .wrap{ max-width:760px; margin:0 auto; padding:32px 20px 60px; line-height:1.7; }
+  h1{ font-size:1.5rem; margin:0 0 6px; }
+  h2{ font-size:1.05rem; color:var(--green-dark); margin:28px 0 8px; }
+  .note{ background:var(--paper-tint-blue); border:1px solid var(--blue); border-radius:10px; padding:14px 16px; font-size:.86rem; margin:14px 0 24px; }
+  .todo{ background:var(--paper-tint-green); border:1px dashed var(--green); border-radius:10px; padding:14px 16px; font-size:.86rem; margin:12px 0; }
+  ul{ padding-left:20px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Yasal Bilgilendirme & Gizlilik (Taslak)</h1>
+  <div class="note">
+    Bu sayfa bir <strong>hukuki danışmanlık değildir</strong>. Gerçek kullanıcı verisi toplamaya veya telifli içerik
+    (meal, kıraat sesi) yayınlamaya başlamadan önce bir hukukçuya danışılması tavsiye edilir.
+  </div>
+
+  <h2>1. İçerik Kaynakları & Telif Durumu</h2>
+  <ul>
+    <li>Kur'an'ın Arapça metni kamuya açıktır, telif kısıtı yoktur.</li>
+    <li>Meal metinleri (Diyanet, Elmalılı Hamdi Yazır vb.) ilgili çevirmen/kurumun telifi altındadır. Bu sitede
+      <code>api.alquran.cloud</code> ve <code>api.quran.com</code> servisleri üzerinden çekilmektedir — yayına
+      geçmeden önce bu servislerin kullanım şartları (terms of service) kontrol edilmelidir.</li>
+    <li>Kıraat ses kayıtları <code>everyayah.com</code> üzerinden çekilmektedir — ticari kullanım için ayrıca izin
+      gerekip gerekmediği teyit edilmelidir.</li>
+    <li>Tefsir/hadis özetleri şu an <strong>örnek/yer tutucu metindir</strong>; gerçek kaynak gösterilmeden yayınlanmamalıdır.</li>
+  </ul>
+  <div class="todo">📌 Yapılacak: Diyanet İşleri Başkanlığı veya ilgili yayınevleriyle resmi kullanım izni/atıf şartları netleştirilmeli.</div>
+
+  <h2>2. Marka & Ad Koruması</h2>
+  <p>"Mahsusa Kur'an" adı ve logosu için Türk Patent ve Marka Kurumu üzerinden marka tescili başvurusu değerlendirilebilir. Bu, patent değil marka tescilidir — yazılımın kendisi değil, ad/logo/marka korunur.</p>
+
+  <h2>3. Kişisel Veriler & KVKK</h2>
+  <ul>
+    <li>Şu anki sürümde kullanıcı verileri (ad, e-posta, favoriler, ilerleme) yalnızca kullanıcının kendi tarayıcısında
+      (<code>localStorage</code>) tutulur; bir sunucuya veya veritabanına gönderilmez.</li>
+    <li>Gerçek bir üyelik sistemi / sunucu tarafı veritabanı eklendiğinde KVKK kapsamına girilir. Bu noktada gerekli olacaklar:</li>
+    <ul>
+      <li>Açık rıza metni (kullanıcı hangi verisinin ne amaçla saklandığını onaylar)</li>
+      <li>Gizlilik politikası sayfası</li>
+      <li>Veri güvenliği önlemleri (şifreleme, erişim kısıtı)</li>
+      <li>Kullanıcının verisini görme/silme talep edebilmesi</li>
+    </ul>
+  </ul>
+  <div class="todo">📌 Yapılacak: Gerçek üyelik/sunucu aşamasına geçmeden önce KVKK uyum kontrol listesi hazırlanmalı.</div>
+
+  <h2>4. Marka İmzası</h2>
+  <p>© 2026 Mahsusa Kur'an — tüm hakları saklıdır. İçerik sahibi ile ilgili sosyal medya bağlantısı ileride kişisel/kurumsal web sitesiyle güncellenecektir.</p>
+</div>
+
+<div class="m-footer">Mahsusa Kur'an — Yasal & Gizlilik (taslak, v54)</div>
+
+<script src="../assets/js/common.js"></script>
+<script>mNavInject('../', 'ana');</script>
+</body>
+</html>

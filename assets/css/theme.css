@@ -1,0 +1,76 @@
+/* Mahsusa Kur'an — Ortak Açık Tema (Beyaz + Yeşil + Mavi) */
+:root{
+  --paper:#FFFFFF;
+  --paper-tint-green:#EAF7F1;
+  --paper-tint-blue:#EAF4FB;
+  --surface:#F7FAF9;
+  --ink:#16241F;
+  --ink-dim:#5B6B63;
+  --green:#1F7A5C;
+  --green-dark:#145C45;
+  --blue:#2E7DB8;
+  --blue-dark:#215F8C;
+  --line: rgba(22,36,31,0.12);
+  --line-strong: rgba(22,36,31,0.22);
+  --danger:#C24C3D;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:'Segoe UI', Tahoma, Geneva, sans-serif;
+  -webkit-tap-highlight-color:transparent;
+}
+::-webkit-scrollbar{width:6px; height:6px;}
+::-webkit-scrollbar-track{background:var(--surface);}
+::-webkit-scrollbar-thumb{background:var(--green); border-radius:4px; opacity:.5;}
+
+/* ---------- Shared top navigation ---------- */
+.m-nav{
+  position:sticky; top:0; z-index:100; background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+}
+.m-nav-inner{
+  max-width:1200px; margin:0 auto; padding:12px 20px; display:flex; align-items:center;
+  gap:20px; flex-wrap:wrap;
+}
+.m-brand{display:flex; align-items:center; gap:8px; text-decoration:none; color:var(--ink); font-weight:700; font-size:1.05rem;}
+.m-brand svg{width:22px; height:22px; color:var(--green);}
+.m-nav-links{display:flex; gap:6px; flex-wrap:wrap; margin-left:auto;}
+.m-nav-links a{
+  text-decoration:none; color:var(--ink-dim); font-size:.85rem; padding:8px 14px; border-radius:8px;
+  transition:background .15s, color .15s;
+}
+.m-nav-links a:hover{background:var(--paper-tint-green); color:var(--green-dark);}
+.m-nav-links a.active{background:var(--green); color:#fff;}
+
+/* ---------- Buttons ---------- */
+button{ font-family:inherit; cursor:pointer; }
+.btn{
+  border:none; border-radius:8px; padding:10px 16px; font-weight:600; font-size:.85rem;
+  transition:filter .15s, transform .1s;
+}
+.btn:hover{ filter:brightness(0.94); }
+.btn:active{ transform:translateY(1px); }
+.btn-green{ background:var(--green); color:#fff; }
+.btn-blue{ background:var(--blue); color:#fff; }
+.btn-ghost{ background:var(--paper); border:1px solid var(--line-strong); color:var(--ink); }
+.btn-ghost:hover{ border-color:var(--green); color:var(--green-dark); }
+
+/* ---------- Cards / panels ---------- */
+.m-card{
+  background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:20px;
+}
+.m-panel-tint-green{ background:var(--paper-tint-green); }
+.m-panel-tint-blue{ background:var(--paper-tint-blue); }
+
+input, select, textarea{
+  background:#fff; border:1px solid var(--line-strong); color:var(--ink);
+  padding:8px 10px; border-radius:6px; font-size:.85rem; outline:none; font-family:inherit;
+}
+input:focus, select:focus, textarea:focus{ border-color:var(--green); }
+label{ font-size:.7rem; color:var(--ink-dim); font-weight:700; text-transform:uppercase; letter-spacing:.02em; }
+
+.m-footer{
+  border-top:1px solid var(--line); padding:24px 20px; color:var(--ink-dim); font-size:.8rem;
+  text-align:center; margin-top:40px;
+}

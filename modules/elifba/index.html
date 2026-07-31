@@ -1,184 +1,69 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elifba Harekeli Eğitim - Mahsusa Kur'an</title>
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elifba Eğitimi — Mahsusa Kur'an</title>
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<style>
+  .wrap{ max-width:900px; margin:0 auto; padding:32px 20px 60px; }
+  h1{ font-size:1.6rem; margin:0 0 6px; }
+  .lead{ color:var(--ink-dim); margin:0 0 28px; }
+  .harf-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-bottom:36px; }
+  @media (max-width:700px){ .harf-grid{ grid-template-columns:repeat(4,1fr); } }
+  .harf{
+    aspect-ratio:1; border:1px solid var(--line); border-radius:8px; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:4px; background:var(--surface); transition:border-color .15s, background .15s;
+  }
+  .harf:hover{ border-color:var(--green); background:var(--paper-tint-green); }
+  .harf .glyph{ font-size:1.6rem; }
+  .harf .name{ font-size:.62rem; color:var(--ink-dim); }
+  .ders{ margin-bottom:16px; }
+  .ders h3{ font-size:1rem; color:var(--green-dark); margin:0 0 6px; }
+  .ders p{ margin:0; color:var(--ink); line-height:1.6; font-size:.92rem; }
+</style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans p-4 md:p-6 min-h-screen">
+<body>
+<div class="wrap">
+  <h1>📖 Elifba Eğitimi</h1>
+  <p class="lead">Arap alfabesi harfleri, harekeler ve okuma alıştırmaları. Bir harfin üzerine gelerek adını gör.</p>
 
-  <div class="max-w-6xl mx-auto space-y-6">
-    
-    <!-- ================================================================= -->
-    <!-- 1. ÜST KONTROL BARI: HAREKE SEÇİM DÜĞMELERİ                      -->
-    <!-- ================================================================= -->
-    <header class="bg-emerald-900 text-white p-6 rounded-3xl shadow-xl flex flex-col md:flex-row justify-between items-center gap-4">
-      <div>
-        <span class="bg-amber-400 text-emerald-950 text-xs font-black px-3 py-1 rounded-full uppercase">Harekeli Okuma Dersi</span>
-        <h1 class="text-2xl md:text-3xl font-extrabold mt-2">Elifba Hareke Eğitimi</h1>
-        <p class="text-emerald-200 text-xs mt-1">Harfleri Üstün, Esre ve Ötre harekeleriyle sesli öğrenin.</p>
-      </div>
+  <div class="harf-grid" id="harfGrid"></div>
 
-      <!-- HAREKE SEÇİM BUTONLARI -->
-      <div class="flex items-center gap-2 bg-emerald-800/80 p-1.5 rounded-2xl border border-emerald-700">
-        <button id="btn-ustun" onclick="harekeDegistir('ustun')" class="px-4 py-2 rounded-xl text-xs font-bold bg-amber-400 text-emerald-950 shadow transition">
-          َ Üstün (E/A)
-        </button>
-        <button id="btn-esre" onclick="harekeDegistir('esre')" class="px-4 py-2 rounded-xl text-xs font-bold hover:bg-emerald-700 text-white transition">
-          ِ Esre (İ/I)
-        </button>
-        <button id="btn-otre" onclick="harekeDegistir('otre')" class="px-4 py-2 rounded-xl text-xs font-bold hover:bg-emerald-700 text-white transition">
-          ُ Ötre (Ü/U)
-        </button>
-      </div>
-    </header>
-
-    <!-- ================================================================= -->
-    <!-- 2. AKTİF İNCELEME PANI (GÖRSEL + SES)                             -->
-    <!-- ================================================================= -->
-    <section class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row justify-between items-center gap-6">
-      
-      <div class="flex items-center space-x-6">
-        <!-- Harekeli Harf Sembolü -->
-        <div id="harfSembol" class="text-7xl font-black text-emerald-900 bg-emerald-50 w-28 h-28 rounded-2xl flex items-center justify-center border border-emerald-200 shadow-inner">
-          أَ
-        </div>
-        
-        <!-- Harf Bilgileri -->
-        <div class="space-y-1">
-          <span id="harekeEtiketi" class="text-xs text-amber-600 font-bold uppercase">ÜSTÜN HAREKELİ</span>
-          <h2 id="harfIsim" class="text-3xl font-extrabold text-slate-900">Elif (E)</h2>
-          <p id="harfOkunus" class="text-sm text-slate-600">Üstün harekesi harfi E veya A sesiyle okutur.</p>
-        </div>
-      </div>
-
-      <!-- Sesi Dinle Butonu -->
-      <button onclick="sesCal()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-8 py-4 rounded-2xl shadow-md transition flex items-center gap-3 active:scale-95">
-        <span class="text-xl">🔊</span>
-        <span>Sesi Dinle</span>
-      </button>
-    </section>
-
-    <!-- ================================================================= -->
-    <!-- 3. HARF KARTLARI IZGARASI                                         -->
-    <!-- ================================================================= -->
-    <section class="space-y-3">
-      <h3 class="text-lg font-bold text-slate-800">Harf Listesi (Tıklayıp Sesini Dinleyin)</h3>
-      <div id="harfKonteyneri" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-3.5">
-        <!-- JS ile dinamik çizilir -->
-      </div>
-    </section>
-
-    <!-- ================================================================= -->
-    <!-- 4. YASAL DİPNOT VE TELİF ETİKETİ                                 -->
-    <!-- ================================================================= -->
-    <footer class="bg-slate-200/60 p-4 rounded-2xl text-center text-xs text-slate-500">
-      <p><strong>© mahsusakuran.com</strong> | Kodlama ve ses motoru %100 özgün, KVKK standartlarına uygundur.</p>
-    </footer>
-
+  <div class="m-card m-panel-tint-green ders">
+    <h3>Ders 1: Huruf-u Heca (Harflerin Yalın ve Birleşik Halleri)</h3>
+    <p>Kur'an harfleri sağdan sola yazılır ve bitişir. Elif (ا), Ba (ب), Tâ (ت), Se (ث) gibi harflerin kendine has çıkış (mahreç) noktaları vardır.</p>
   </div>
+  <div class="m-card m-panel-tint-blue ders">
+    <h3>Ders 2: Harekeler (Üstün, Esre, Ötre)</h3>
+    <p>Üstün (fetha) "e/a", Esre (kesre) "i/e", Ötre (damme) "u/ü" sesi verir. Harekeler harfin üstüne veya altına konur.</p>
+  </div>
+  <div class="m-card m-panel-tint-green ders">
+    <h3>Ders 3: Cezm, Şedde ve Tenvin</h3>
+    <p>Cezm (sükun) harfi harekesiz okutur, şedde harfi iki kez okutur, tenvin ise kelime sonunda "n" sesi katar.</p>
+  </div>
+</div>
 
-  <!-- ================================================================= -->
-  <!-- JAVASCRIPT KONTROL VE HAREKE MANTIĞI                              -->
-  <!-- ================================================================= -->
-  <script>
-    // 1. HARFLER VE HAREKE DİZİLİMLERİ VERİ SETİ
-    const TEMEL_HARFLER = [
-      { id: 1, isim: 'Elif', ustun: 'أَ', esre: 'إِ', otre: 'أُ', ustunSes: 'E', esreSes: 'İ', otreSes: 'Ü', arapcaUstun: 'أَ', arapcaEsre: 'إِ', arapcaOtre: 'أُ' },
-      { id: 2, isim: 'Be', ustun: 'بَ', esre: 'بِ', otre: 'بُ', ustunSes: 'Be', esreSes: 'Bi', otreSes: 'Bü', arapcaUstun: 'بَ', arapcaEsre: 'بِ', arapcaOtre: 'بُ' },
-      { id: 3, isim: 'Te', ustun: 'تَ', esre: 'تِ', otre: 'تُ', ustunSes: 'Te', esreSes: 'Ti', otreSes: 'Tü', arapcaUstun: 'تَ', arapcaEsre: 'تِ', arapcaOtre: 'تُ' },
-      { id: 4, isim: 'Se', ustun: 'ثَ', esre: 'ثِ', otre: 'ثُ', ustunSes: 'Se', esreSes: 'Si', otreSes: 'Sü', arapcaUstun: 'ثَ', arapcaEsre: 'ثِ', arapcaOtre: 'ثُ' },
-      { id: 5, isim: 'Cim', ustun: 'جَ', esre: 'جِ', otre: 'جُ', ustunSes: 'Ce', esreSes: 'Ci', otreSes: 'Cü', arapcaUstun: 'جَ', arapcaEsre: 'جِ', arapcaOtre: 'جُ' },
-      { id: 6, isim: 'Ha', ustun: 'حَ', esre: 'حِ', otre: 'حُ', ustunSes: 'Ha', esreSes: 'Hı', otreSes: 'Hu', arapcaUstun: 'حَ', arapcaEsre: 'حِ', arapcaOtre: 'حُ' },
-      { id: 7, isim: 'Hı', ustun: 'خَ', esre: 'خِ', otre: 'خُ', ustunSes: 'Kha', esreSes: 'Khi', otreSes: 'Khu', arapcaUstun: 'خَ', arapcaEsre: 'خِ', arapcaOtre: 'خُ' }
-    ];
+<div class="m-footer">Mahsusa Kur'an — Elifba modülü (v54)</div>
 
-    let aktifHareke = 'ustun'; // Varsayılan hareke: üstün
-    let aktifHarf = TEMEL_HARFLER[0];
+<script src="../../assets/js/common.js"></script>
+<script>
+  mNavInject('../../', 'elifba');
 
-    /**
-     * 2. HAREKE DEĞİŞTİRME FONKSİYONU
-     */
-    function harekeDegistir(yeniHareke) {
-      aktifHareke = yeniHareke;
-
-      // Buton Görsellerini Güncelle
-      const butonlar = ['ustun', 'esre', 'otre'];
-      butonlar.forEach(h => {
-        const btn = document.getElementById(`btn-${h}`);
-        if (h === yeniHareke) {
-          btn.className = "px-4 py-2 rounded-xl text-xs font-bold bg-amber-400 text-emerald-950 shadow transition";
-        } else {
-          btn.className = "px-4 py-2 rounded-xl text-xs font-bold hover:bg-emerald-700 text-white transition";
-        }
-      });
-
-      harfSec(aktifHarf);
-    }
-
-    /**
-     * 3. EKRANA KARTLARI ÇİZEN FONKSİYON
-     */
-    function harfleriEkranaBas() {
-      const konteyner = document.getElementById('harfKonteyneri');
-      konteyner.innerHTML = '';
-
-      TEMEL_HARFLER.forEach(harf => {
-        const kart = document.createElement('div');
-        const isSelected = harf.id === aktifHarf.id;
-
-        // Seçili harekeye göre sembol ve okunuş alınıyor
-        const gosterilecekSembol = harf[aktifHareke];
-        const gosterilecekOkunus = harf[`${aktifHareke}Ses`];
-
-        kart.className = `p-4 rounded-2xl border ${isSelected ? 'border-emerald-600 bg-emerald-50/60 ring-2 ring-emerald-500' : 'border-slate-200 bg-white'} shadow-sm hover:shadow-md cursor-pointer text-center transition transform hover:-translate-y-1 flex flex-col items-center justify-center space-y-1 select-none`;
-
-        kart.innerHTML = `
-          <span class="text-4xl font-bold text-emerald-950">${gosterilecekSembol}</span>
-          <span class="text-xs font-bold text-slate-800">${harf.isim} (${gosterilecekOkunus})</span>
-        `;
-
-        kart.onclick = () => harfSec(harf);
-        konteyner.appendChild(kart);
-      });
-    }
-
-    /**
-     * 4. HARF SEÇİMİ VE DETAY GÜNCELLEME
-     */
-    function harfSec(harf) {
-      aktifHarf = harf;
-
-      const etiketMap = { ustun: 'ÜSTÜN HAREKELİ (E/A)', esre: 'ESRE HAREKELİ (İ/I)', otre: 'ÖTRE HAREKELİ (Ü/U)' };
-      document.getElementById('harekeEtiketi').innerText = etiketMap[aktifHareke];
-      document.getElementById('harfSembol').innerText = harf[aktifHareke];
-      document.getElementById('harfIsim').innerText = `${harf.isim} (${harf[`${aktifHareke}Ses`]})`;
-
-      harfleriEkranaBas();
-      sesCal();
-    }
-
-    /**
-     * 5. SES ÇALMA MOTORU (Arapça Fonetik)
-     */
-    function sesCal() {
-      if ('speechSynthesis' in window) {
-        const arapcaMetin = aktifHarf[`arapca${aktifHareke.charAt(0).toUpperCase() + aktifHareke.slice(1)}`];
-        const utterance = new SpeechSynthesisUtterance(arapcaMetin);
-        utterance.lang = 'ar-SA';
-        utterance.rate = 0.7;
-        window.speechSynthesis.cancel();
-        window.speechSynthesis.speak(utterance);
-      }
-    }
-
-    // SAYFA İLK YÜKLENDİĞİNDE BAŞLAT
-    document.addEventListener('DOMContentLoaded', () => {
-      harfSec(aktifHarf);
-    });
-  </script>
+  const harfler = [
+    ['ا','Elif'],['ب','Bâ'],['ت','Tâ'],['ث','Sâ'],['ج','Cîm'],['ح','Hâ'],['خ','Hı'],
+    ['د','Dâl'],['ذ','Zâl'],['ر','Râ'],['ز','Zây'],['س','Sîn'],['ش','Şîn'],['ص','Sâd'],
+    ['ض','Dâd'],['ط','Tı'],['ظ','Zâ'],['ع','Ayn'],['غ','Gayn'],['ف','Fâ'],['ق','Kaf'],
+    ['ك','Kef'],['ل','Lâm'],['م','Mîm'],['ن','Nûn'],['ه','Hâ'],['و','Vâv'],['ي','Yâ']
+  ];
+  const grid = document.getElementById('harfGrid');
+  harfler.forEach(([glyph,name]) => {
+    const d = document.createElement('div');
+    d.className = 'harf';
+    d.title = name;
+    d.innerHTML = `<span class="glyph">${glyph}</span><span class="name">${name}</span>`;
+    grid.appendChild(d);
+  });
+</script>
 </body>
 </html>
