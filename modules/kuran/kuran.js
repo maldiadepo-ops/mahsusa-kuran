@@ -18,8 +18,60 @@ function sureleriDoldur() {
     }
 }
 
-window.addEventListener('DOMContentLoaded', () => {
+/* Dil (meal) ve kariî listelerini alquran.cloud'un GERÇEK edition API'sinden
+   canlı olarak çeker — böylece "onaylı yazar/kariî" listesi biz uydurmuyoruz,
+   doğrudan servisin kendi kayıtlı editionlarından geliyor. API'ye erişilemezse
+   önceden bilinen küçük bir yedek liste kullanılır, boş kalmaması için. */
+async function diliVeKariListesiDoldur() {
+    const dilSelect = document.getElementById('dilSecimi');
+    const kariSelect = document.getElementById('qariSecimi');
+    const oncekiDil = dilSelect.value;
+    const oncekiKari = kariSelect.value;
+
+    try {
+        const r = await fetch('https://api.alquran.cloud/v1/edition/type/translation');
+        const j = await r.json();
+        const diller = j.data
+            .filter(e => e.format === 'text')
+            .sort((a, b) => a.language.localeCompare(b.language));
+        dilSelect.innerHTML = diller.map(e =>
+            `<option value="${e.identifier}">${e.language.toUpperCase()} — ${e.englishName}</option>`
+        ).join('');
+        if (!dilSelect.querySelector(`option[value="tr.diyanet"]`)) {
+            dilSelect.insertAdjacentHTML('afterbegin', `<option value="tr.diyanet">TR — Diyanet İşleri</option>`);
+        }
+        dilSelect.value = oncekiDil || 'tr.diyanet';
+    } catch (err) {
+        console.error('Dil listesi çekilemedi, yedek liste kullanılıyor:', err);
+        dilSelect.innerHTML = `
+            <option value="tr.diyanet">TR — Diyanet İşleri</option>
+            <option value="tr.yazir">TR — Elmalılı Hamdi Yazır</option>
+            <option value="en.sahih">EN — Sahih International</option>`;
+    }
+
+    try {
+        const r = await fetch('https://api.alquran.cloud/v1/edition?format=audio&type=versebyverse');
+        const j = await r.json();
+        const kariler = j.data.sort((a, b) => (a.englishName || '').localeCompare(b.englishName || ''));
+        kariSelect.innerHTML = kariler.map(e =>
+            `<option value="${e.identifier}">${e.englishName} (${e.language.toUpperCase()})</option>`
+        ).join('');
+        if (!kariSelect.querySelector(`option[value="ar.alafasy"]`)) {
+            kariSelect.insertAdjacentHTML('afterbegin', `<option value="ar.alafasy">Mishary Rashid Alafasy (AR)</option>`);
+        }
+        kariSelect.value = oncekiKari || 'ar.alafasy';
+    } catch (err) {
+        console.error('Kariî listesi çekilemedi, yedek liste kullanılıyor:', err);
+        kariSelect.innerHTML = `
+            <option value="ar.alafasy">Mishary Rashid Alafasy (AR)</option>
+            <option value="ar.husary">Mahmoud Khalil Al-Husary (AR)</option>
+            <option value="ar.abdulsamad">Abdul Basit Abdul Samad (AR)</option>`;
+    }
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
     sureleriDoldur();
+    await diliVeKariListesiDoldur();
     const hijriStr = new Intl.DateTimeFormat('tr-TR-u-ca-islamic-umalqura', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date());
     const miladiStr = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date());
     document.getElementById('widgetMiladiTop').innerText = miladiStr;
@@ -29,7 +81,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (savedUser) {
         const uObj = JSON.parse(savedUser);
         document.getElementById('userBadge').innerText = `👤 ${uObj.ad}`;
-        document.getElementById('dilSecimi').value = uObj.lang;
+        if (uObj.lang) document.getElementById('dilSecimi').value = uObj.lang;
     }
 
     // Ana sayfadaki aramadan gelen doğrudan bağlantı: ?sure=4&ayet=1
@@ -130,6 +182,7 @@ async function ayetiGetir() {
             mevcutData = {
                 sureNo: sure, ayetNo: ayet, sureAdiTR: sureIsimleriTR[sure] || "Sure",
                 juz: ayahData.juz, page: ayahData.page, arabicText: ayahData.text,
+                globalAyahNo: ayahData.number,
                 transliteration: translitJson.data ? translitJson.data.text : "Transliteration",
                 translationPrimary: primaryMeal, translationTurkish: turkishMeal,
                 tefsirText: tefsirMetni, hadisText: hadisMetni, latinLabel: lblLatin
@@ -466,12 +519,10 @@ function ekraniGuncelle() {
 }
 
 function sesGuncelle() {
-    if (!mevcutData.sureNo) return;
-    const qariFolder = document.getElementById('qariSecimi').value;
-    const surahPadded = String(mevcutData.sureNo).padStart(3, '0');
-    const ayahPadded = String(mevcutData.ayetNo).padStart(3, '0');
+    if (!mevcutData.sureNo || !mevcutData.globalAyahNo) return;
+    const qariEdition = document.getElementById('qariSecimi').value; // örn: ar.alafasy
     const player = document.getElementById('audioPlayer');
-    player.src = `https://everyayah.com/data/${qariFolder}/${surahPadded}${ayahPadded}.mp3`;
+    player.src = `https://cdn.islamic.network/quran/audio/128/${qariEdition}/${mevcutData.globalAyahNo}.mp3`;
     player.load();
 }
 
