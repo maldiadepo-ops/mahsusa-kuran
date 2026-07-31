@@ -8,11 +8,16 @@
 <style>
   .hub-header{ background:#0E1C18; }
   .hub-header-inner{
-    max-width:1100px; margin:0 auto; padding:16px 20px; display:flex; align-items:center; justify-content:space-between;
+    max-width:1100px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; gap:24px;
   }
-  .hub-logo{ color:#fff; font-weight:800; font-size:1.05rem; letter-spacing:.02em; }
+  .hub-logo{ color:#fff; font-weight:800; font-size:1.05rem; letter-spacing:.02em; flex-shrink:0; }
   .hub-logo .dot{ color:var(--green); }
-  .hub-header-icons{ display:flex; gap:6px; }
+  .hub-nav-links{ display:flex; gap:18px; margin-left:8px; flex:1; }
+  .hub-nav-links a{ color:rgba(255,255,255,0.7); text-decoration:none; font-size:.86rem; }
+  .hub-nav-links a:hover{ color:#fff; }
+  .hub-nav-links a.active{ color:#fff; font-weight:700; }
+  @media (max-width:880px){ .hub-nav-links{ display:none; } }
+  .hub-header-icons{ display:flex; gap:6px; flex-shrink:0; }
   .hub-icon-btn{
     width:36px; height:36px; border-radius:8px; border:none; background:transparent; color:#fff;
     display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:.85;
@@ -117,6 +122,13 @@
 <div class="hub-header">
   <div class="hub-header-inner">
     <div class="hub-logo">MAHSUSA<span class="dot">.</span></div>
+    <nav class="hub-nav-links">
+      <a href="index.html" class="active">Ana Sayfa</a>
+      <a href="modules/kuran/index.html">Kur'an Oku</a>
+      <a href="modules/elifba/index.html">Elifba</a>
+      <a href="modules/peygamberler/index.html">Peygamberler</a>
+      <a href="modules/siyer/index.html">Siyer Yarışması</a>
+    </nav>
     <div class="hub-header-icons">
       <button class="hub-icon-btn" id="btnProfilIcon" title="Hesap">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/></svg>
@@ -203,6 +215,5 @@
 
 <script src="assets/js/common.js"></script>
 <script src="assets/js/hub.js"></script>
-<script>mNavInject('', 'ana');</script>
 </body>
 </html>

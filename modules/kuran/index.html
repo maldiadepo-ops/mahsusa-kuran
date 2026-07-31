@@ -11,7 +11,28 @@
         body { display: flex; flex-direction:column; height: 100vh; overflow: hidden; }
         .app-body{ display:flex; flex:1; min-height:0; }
 
-        .sidebar { width: 360px; background: var(--surface); padding: 16px; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; border-right: 1px solid var(--line); flex-shrink: 0; }
+        .sidebar {
+            width: 360px; background: var(--surface); padding: 16px; display: flex; flex-direction: column; gap: 10px;
+            overflow-y: auto; flex-shrink: 0;
+            position: fixed; top: 0; left: 0; height: 100vh; z-index: 200;
+            transform: translateX(-101%); transition: transform .25s ease;
+            box-shadow: 0 0 40px rgba(22,36,31,0.25);
+        }
+        .sidebar.open { transform: translateX(0); }
+        .drawer-toggle-btn {
+            position: fixed; top: 14px; left: 14px; z-index: 190; width: 42px; height: 42px; border-radius: 10px;
+            background: var(--green); color: #fff; border: none; font-size: 1.1rem; cursor: pointer;
+            box-shadow: 0 6px 16px rgba(22,36,31,0.25);
+        }
+        .drawer-toggle-btn:hover { background: var(--green-dark); }
+        .drawer-overlay {
+            position: fixed; inset: 0; background: rgba(14,28,24,0.4); z-index: 150; display: none;
+        }
+        .drawer-overlay.show { display: block; }
+        .sidebar-close-btn {
+            display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 6px;
+            border: 1px solid var(--line-strong); background: var(--paper); color: var(--ink-dim); cursor: pointer; font-size: .9rem;
+        }
         .sidebar h2 { color: var(--green-dark); font-size: 15px; text-align: center; display: flex; justify-content: space-between; align-items: center; margin:0; }
         .user-badge { font-size: 10px; background: var(--paper); border: 1px solid var(--line-strong); padding: 3px 6px; border-radius: 4px; cursor: pointer; color: var(--green-dark); }
         .user-badge:hover { background: var(--green); color: white; border-color:var(--green); }
@@ -69,7 +90,14 @@
         .info-box p { font-size: 12px; color: var(--ink); line-height: 1.4; margin:0; }
         .info-box .sub { font-size: 10.5px; color: var(--ink-dim); margin-top: 4px; font-weight: 600; }
 
-        .card-preview-area { width: 320px; background: var(--surface); padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; flex-shrink: 0; }
+        .card-preview-area {
+            width: 320px; background: var(--surface); padding: 16px; display: flex; flex-direction: column; align-items: center;
+            justify-content: center; gap: 12px; flex-shrink: 0;
+            position: absolute; left: -9999px; top: 0;
+        }
+        @media (max-width: 680px) {
+            .card-preview-area { position: static; left: auto; width: 100%; }
+        }
         .preview-card { background: linear-gradient(145deg, #ffffff 0%, #eef7f3 100%); border-radius: 16px; border: 1px solid var(--line); box-shadow: 0 10px 28px rgba(22,36,31,0.12); display: flex; flex-direction: column; justify-content: space-between; padding: 25px 18px; text-align: center; position: relative; }
         .preview-card.format-reels { width: 260px; height: 460px; }
         .preview-card.format-post { width: 300px; height: 300px; }
@@ -115,16 +143,19 @@
         @media(max-width: 1024px) {
             body { height: auto; overflow: auto; }
             .app-body{ flex-direction: column; }
-            .sidebar, .card-preview-area { width: 100%; height: auto; }
-            .research-panel { height: 600px; }
+            .research-panel { height: auto; }
         }
     </style>
 </head>
 <body>
 
+<button class="drawer-toggle-btn" id="drawerToggle" title="Araçlar ve ayarlar">☰</button>
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
 <div class="app-body">
-    <div class="sidebar">
-        <h2>Kur'an Oku <span class="user-badge" id="userBadge" onclick="profilModalAc()">👤 Profilim</span></h2>
+    <div class="sidebar" id="sidebarPanel">
+        <h2>Kur'an Oku <span class="sidebar-close-btn" id="drawerClose">✕</span></h2>
+        <span class="user-badge" id="userBadge" onclick="profilModalAc()" style="align-self:center;">👤 Profilim</span>
         <div id="statusMsg">Anında Arama Aktif</div>
 
         <div style="font-size:10.5px; color:var(--green-dark); text-align:center; font-weight:600; margin-bottom:4px;" id="widgetMiladiTop">—</div>
@@ -192,8 +223,7 @@
             <label style="color:var(--green-dark);">📚 İlmî Kütüphane & Eğitim:</label>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-top:2px;">
                 <a class="btn btn-ghost" style="text-align:center; text-decoration:none; font-size:10px; padding:6px;" href="../elifba/index.html">📖 Elifba Dersleri</a>
-                <a class="btn btn-ghost" style="text-align:center; text-decoration:none; font-size:10px; padding:6px;" href="../peygamberler/index.html">📜 Peygamberler</a>
-                <a class="btn btn-ghost" style="text-align:center; text-decoration:none; font-size:10px; padding:6px; grid-column:1 / -1;" href="../siyer/index.html">🏆 Siyer Yarışması</a>
+                <a class="btn btn-ghost" style="text-align:center; text-decoration:none; font-size:10px; padding:6px;" href="../siyer/index.html">🏆 Siyer Yarışması</a>
             </div>
         </div>
 

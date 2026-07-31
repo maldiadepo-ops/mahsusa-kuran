@@ -461,7 +461,7 @@ function ekraniGuncelle() {
 
     const captionTextEl = document.getElementById('captionText');
     if (captionTextEl) {
-        captionTextEl.value = `${mevcutData.sureAdiTR} Suresi, ${mevcutData.ayetNo}. Ayet\n\n"${mevcutData.translationPrimary}"\n\n#Kuran #${mevcutData.sureAdiTR} #mahsusa`;
+        captionTextEl.value = `${mevcutData.sureAdiTR} Suresi, ${mevcutData.ayetNo}. Ayet\n\n"${mevcutData.translationPrimary}"\n\n#Kuran #${mevcutData.sureAdiTR} #mahsusakuran #islam #ayet #meal`;
     }
 }
 
@@ -511,6 +511,16 @@ function sosyalPaylas(p) {
     }
     if (u) window.open(u, '_blank');
 }
+
+window.addEventListener('DOMContentLoaded', () => {
+    const sidebarPanel = document.getElementById('sidebarPanel');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+    const openDrawer = () => { sidebarPanel.classList.add('open'); drawerOverlay.classList.add('show'); };
+    const closeDrawer = () => { sidebarPanel.classList.remove('open'); drawerOverlay.classList.remove('show'); };
+    document.getElementById('drawerToggle').addEventListener('click', openDrawer);
+    document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+    drawerOverlay.addEventListener('click', closeDrawer);
+});
 
 window.addEventListener('DOMContentLoaded', () => {
     const player = document.getElementById('audioPlayer');
