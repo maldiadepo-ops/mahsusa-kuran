@@ -1,36 +1,36 @@
-// =================================================================
-// MAHSUSA KUR'AN - SERVICE WORKER (ÇEVRİMDIŞI KULLANIM SCRIPT'İ)
-// Dosya Adı: sw.js (Projenin en dış kök klasörüne kaydedilmelidir)
-// =================================================================
+/* ==========================================================================
+   DOSYA ADI: sw.js
+   AÇIKLAMA: Servis Çalıştırıcısı (Service Worker) - Çevrimdışı Çalışma Motoru
+   ========================================================================== */
 
 const CACHE_NAME = 'mahsusa-kuran-v1';
 
-// Önbelleğe alınacak kritik dosya yolları
-const ONBELLEKLENECEK_DOSYALAR = [
-  './',
+// Hafızaya Alınacak Temel Dosya Listesi
+const ASSETS_TO_CACHE = [
   './index.html',
-  './modules/elifba/index.html',
-  './modules/yarisma/index.html',
-  './modules/paket/index.html',
-  'https://cdn.tailwindcss.com'
+  './api.js',
+  './app.js',
+  './manifest.json'
 ];
 
-// 1. KURULUM (INSTALL): Dosyaları tarayıcı hafızasına kaydeder
+// 1. Uygulama Yüklendiğinde Dosyaları Hafızaya Al
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[PWA] Dosyalar önbelleğe alınıyor...');
-      return cache.addAll(ONBELLEKLENECEK_DOSYALAR);
+      console.log('Dosyalar hafızaya kaydediliyor...');
+      return cache.addAll(ASSETS_TO_CACHE);
     })
   );
 });
 
-// 2. VERİ ÇEKME (FETCH): İnternet yoksa veriyi önbellekten sunar
+// 2. İnternet İsteği Geldiğinde Önce Hafızadan Hızlıca Getir
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      // Önbellekte varsa oradan döndür, yoksa ağdan çek
-      return response || fetch(event.request);
+    caches.match(event.request).then((cachedResponse) => {
+      if (cachedResponse) {
+        return cachedResponse; // Hafızada varsa internete gitmeden anında aç
+      }
+      return fetch(event.request); // Hafızada yoksa canlı internetten çek
     })
   );
 });
