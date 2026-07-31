@@ -31,6 +31,14 @@ window.addEventListener('DOMContentLoaded', () => {
         document.getElementById('userBadge').innerText = `👤 ${uObj.ad}`;
         document.getElementById('dilSecimi').value = uObj.lang;
     }
+
+    // Ana sayfadaki aramadan gelen doğrudan bağlantı: ?sure=4&ayet=1
+    const params = new URLSearchParams(window.location.search);
+    const sureParam = parseInt(params.get('sure'));
+    const ayetParam = parseInt(params.get('ayet'));
+    if (sureParam >= 1 && sureParam <= 114) document.getElementById('sureNo').value = sureParam;
+    if (ayetParam >= 1) document.getElementById('ayetNo').value = ayetParam;
+
     ayetiGetir();
 });
 
@@ -44,6 +52,7 @@ async function ayetiGetir() {
     statusMsg.innerText = "Yükleniyor...";
     userReadCounts[sure] = (userReadCounts[sure] || 0) + 1;
     localStorage.setItem('mahsusa_last_read', `${sureIsimleriTR[sure]} Suresi • ${sure}:${ayet}`);
+    if (typeof mLogActivity === 'function') mLogActivity();
 
     try {
         const [arRes, mealRes, yazirRes, translitRes] = await Promise.all([

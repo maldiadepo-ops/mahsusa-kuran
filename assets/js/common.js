@@ -48,6 +48,19 @@ function calculateEbjed(text) {
 
 /* Ortak üst navigasyon barını sayfaya enjekte eder.
    basePath: bu sayfadan proje köküne göreli yol, örn. "../../" (modül içinden) veya "" (kökten) */
+/* Basit, gerçek kullanım kaydı — sahte istatistik üretmemek için.
+   Her çağrıldığında bugünün tarihine +1 ekler. Sadece kullanıcının kendi
+   tarayıcısında (localStorage) tutulur, sunucuya gönderilmez. */
+function mLogActivity() {
+    try {
+        const key = 'mahsusa_activity';
+        const log = JSON.parse(localStorage.getItem(key) || '{}');
+        const today = new Date().toISOString().slice(0, 10);
+        log[today] = (log[today] || 0) + 1;
+        localStorage.setItem(key, JSON.stringify(log));
+    } catch (e) { /* localStorage kapalıysa sessizce geç */ }
+}
+
 function mNavInject(basePath, activeKey) {
     const items = [
         {key:'ana', label:'Ana Sayfa', href: basePath + 'index.html'},
