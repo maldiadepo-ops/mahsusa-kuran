@@ -139,7 +139,7 @@ async function ayetiGetir() {
             let lblMeal = "Seçilen Dildeki Meal";
             let lblTefsir = "Kısa Tefsir & Hikmet";
             let lblHadis = "İlgili Sahih Hadis";
-            let lblLatin = "Latin Okunuş";
+            let lblLatin = "Latin Harfli Okunuş (uluslararası transliterasyon)";
 
             if (lang.includes('en')) {
                 lblWbw = "Word by Word Analysis & Transliteration"; lblMeal = "Selected Language Translation";
@@ -497,6 +497,15 @@ function ekraniGuncelle() {
     document.getElementById('resTitle').innerText = `${sureAdiUpper} SURESİ • ${mevcutData.sureNo}:${mevcutData.ayetNo}`;
     document.getElementById('resMetaHeader').innerText = `CÜZ: ${mevcutData.juz} • SAYFA: ${mevcutData.page} • MUSHAF: ${mevcutData.sureNo}`;
     document.getElementById('resLatin').innerText = `${mevcutData.latinLabel}: ${mevcutData.transliteration}...`;
+    const latinEl = document.getElementById('resLatin');
+    let latinNote = document.getElementById('resLatinNote');
+    if (!latinNote) {
+        latinNote = document.createElement('div');
+        latinNote.id = 'resLatinNote';
+        latinNote.style.cssText = 'font-size:9.5px; color:var(--ink-dim); margin-top:2px;';
+        latinEl.insertAdjacentElement('afterend', latinNote);
+    }
+    latinNote.innerText = "Not: Bu okunuş, seçtiğin dile göre değil, tek bir uluslararası Latin transliterasyon standardına göre üretilir; Türkçe fonetik okunuştan farklı görünebilir.";
     document.getElementById('resTranslationDiyanet').innerText = mevcutData.translationPrimary;
     document.getElementById('resTranslationYazir').innerText = mevcutData.translationTurkish;
     document.getElementById('resTefsir').innerText = mevcutData.tefsirText;

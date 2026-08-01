@@ -14,34 +14,85 @@
   .harf{
     aspect-ratio:1; border:1px solid var(--line); border-radius:8px; display:flex; flex-direction:column;
     align-items:center; justify-content:center; gap:4px; background:var(--surface); transition:border-color .15s, background .15s;
+    cursor:pointer; position:relative;
   }
   .harf:hover{ border-color:var(--green); background:var(--paper-tint-green); }
+  .harf.playing{ border-color:var(--blue); background:var(--paper-tint-blue); }
   .harf .glyph{ font-size:1.6rem; }
   .harf .name{ font-size:.62rem; color:var(--ink-dim); }
+  .harf .speak-icon{ position:absolute; top:3px; right:3px; font-size:.6rem; opacity:.5; }
   .ders{ margin-bottom:16px; }
   .ders h3{ font-size:1rem; color:var(--green-dark); margin:0 0 6px; }
   .ders p{ margin:0; color:var(--ink); line-height:1.6; font-size:.92rem; }
+  .seviye-tabs{ display:flex; gap:6px; margin-bottom:18px; flex-wrap:wrap; }
+  .seviye-tab{ font-size:.82rem; padding:8px 16px; border-radius:999px; border:1px solid var(--line-strong); background:var(--paper); color:var(--ink-dim); cursor:pointer; }
+  .seviye-tab.active{ background:var(--green); color:#fff; border-color:var(--green); }
+  .seviye-panel{ display:none; }
+  .seviye-panel.active{ display:block; }
+  .ornek-kelime{ font-size:.8rem; color:var(--blue-dark); margin-top:4px; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>📖 Elifba Eğitimi</h1>
-  <p class="lead">Arap alfabesi harfleri, harekeler ve okuma alıştırmaları. Bir harfin üzerine gelerek adını gör.</p>
+  <p class="lead">Arap alfabesi harfleri, harekeler ve okuma alıştırmaları. Bir harfe <strong>tıklayarak sesini dinle</strong>, üzerine gelerek adını gör.</p>
+  <div class="note" style="margin-bottom:16px;">🔊 Sesli okuma, cihazının/tarayıcının kendi ses motorunu kullanır — bazı cihazlarda Arapça ses bulunmayabilir, bu durumda sesin kalitesi/bulunabilirliği değişebilir.</div>
 
   <div class="harf-grid" id="harfGrid"></div>
 
-  <div class="m-card m-panel-tint-green ders">
-    <h3>Ders 1: Huruf-u Heca (Harflerin Yalın ve Birleşik Halleri)</h3>
-    <p>Kur'an harfleri sağdan sola yazılır ve bitişir. Elif (ا), Ba (ب), Tâ (ت), Se (ث) gibi harflerin kendine has çıkış (mahreç) noktaları vardır.</p>
+  <div class="seviye-tabs">
+    <button class="seviye-tab active" data-seviye="cocuk">🧒 Çocuklar İçin</button>
+    <button class="seviye-tab" data-seviye="yetiskin">🧑 Yetişkinler İçin</button>
+    <button class="seviye-tab" data-seviye="ileri">🎓 İleri Seviye</button>
   </div>
-  <div class="m-card m-panel-tint-blue ders">
-    <h3>Ders 2: Harekeler (Üstün, Esre, Ötre)</h3>
-    <p>Üstün (fetha) "e/a", Esre (kesre) "i/e", Ötre (damme) "u/ü" sesi verir. Harekeler harfin üstüne veya altına konur.</p>
+
+  <div class="seviye-panel active" id="panel-cocuk">
+    <div class="m-card m-panel-tint-green ders">
+      <h3>Harfleri Oyunla Tanıyalım</h3>
+      <p>Her harfin kendine has bir şekli ve sesi var. Önce harfi gör, sesini yüksek sesle tekrarla, sonra aynı harfin geçtiği kısa bir kelime söyle. Örnek: <strong>ب (Bâ)</strong> — "Baba" kelimesindeki "B" sesine benzer.</p>
+      <div class="ornek-kelime">Pratik: Her gün 3-4 harf öğrenip ertesi gün tekrar et, aceleye gerek yok.</div>
+    </div>
+    <div class="m-card m-panel-tint-blue ders">
+      <h3>Sesli Tekrar Oyunu</h3>
+      <p>Bir yetişkinle birlikte harfi söyleyip çocuğun tekrar etmesini iste. Doğru söylediğinde küçük bir ödül (yıldız, sticker) vermek öğrenmeyi eğlenceli hale getirir.</p>
+    </div>
   </div>
-  <div class="m-card m-panel-tint-green ders">
-    <h3>Ders 3: Cezm, Şedde ve Tenvin</h3>
-    <p>Cezm (sükun) harfi harekesiz okutur, şedde harfi iki kez okutur, tenvin ise kelime sonunda "n" sesi katar.</p>
+
+  <div class="seviye-panel" id="panel-yetiskin">
+    <div class="m-card m-panel-tint-green ders">
+      <h3>Ders 1: Huruf-u Heca (Harflerin Yalın ve Birleşik Halleri)</h3>
+      <p>Kur'an harfleri sağdan sola yazılır ve bitişir. Elif (ا), Ba (ب), Tâ (ت), Se (ث) gibi harflerin kendine has çıkış (mahreç) noktaları vardır.</p>
+    </div>
+    <div class="m-card m-panel-tint-blue ders">
+      <h3>Ders 2: Harekeler (Üstün, Esre, Ötre)</h3>
+      <p>Üstün (fetha) "e/a", Esre (kesre) "i/e", Ötre (damme) "u/ü" sesi verir. Harekeler harfin üstüne veya altına konur.</p>
+    </div>
+    <div class="m-card m-panel-tint-green ders">
+      <h3>Ders 3: Cezm, Şedde ve Tenvin</h3>
+      <p>Cezm (sükun) harfi harekesiz okutur, şedde harfi iki kez okutur, tenvin ise kelime sonunda "n" sesi katar.</p>
+    </div>
+    <div class="m-card m-panel-tint-blue ders">
+      <h3>Ders 4: Harflerin Kelime İçindeki Bitişik Halleri</h3>
+      <p>Çoğu harf, kelimenin başında, ortasında ve sonunda farklı yazılır (ör. ع harfi başta ﻋ, ortada ﻌ, sonda ﻊ şeklinde görünür). Bunu tanımak akıcı okumanın anahtarıdır.</p>
+    </div>
   </div>
+
+  <div class="seviye-panel" id="panel-ileri">
+    <div class="m-card m-panel-tint-green ders">
+      <h3>Medd (Uzatma) Kuralları</h3>
+      <p>Elif, vav ve ya harfleri belirli şartlarda sesi uzatır (medd). Medd-i tabiî 1 elif (2 hareke) miktarınca uzatılır; medd-i muttasıl ve munfasıl gibi türleri farklı uzunluklarda okunur.</p>
+    </div>
+    <div class="m-card m-panel-tint-blue ders">
+      <h3>İdgam, İhfa ve Kalkale</h3>
+      <p>İdgam: nûn sakin veya tenvin, belirli harflerle birleşerek okunur. İhfa: nûn sakin bazı harflerden önce gizlenerek genizden okunur. Kalkale: ق ط ب ج د harfleri sakin olduğunda hafif bir sıçrama sesiyle okunur.</p>
+    </div>
+    <div class="m-card m-panel-tint-green ders">
+      <h3>Mushaf İşaretleri</h3>
+      <p>Durak işaretleri (vakf), secde ayetleri ve cüz/hizb işaretleri, akıcı ve doğru bir tilavet için mushaf üzerinde özel sembollerle gösterilir.</p>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:20px;">Kaynak: Bu içerikler, çocuklar için kuran-ogreniyorum.com, yetişkinler için elifba.online ve ileri seviye için kuran.diyanet.gov.tr/elifba kaynaklarındaki genel eğitim akışından ilham alınarak özgün şekilde yazılmıştır; birebir alıntı içermez.</div>
 </div>
 
 <div class="m-footer">Mahsusa Kur'an — Elifba modülü (v54)</div>
@@ -57,12 +108,38 @@
     ['ك','Kef'],['ل','Lâm'],['م','Mîm'],['ن','Nûn'],['ه','Hâ'],['و','Vâv'],['ي','Yâ']
   ];
   const grid = document.getElementById('harfGrid');
+
+  function harfiSesliOku(glyph, el) {
+    if (!('speechSynthesis' in window)) { alert('Tarayıcın sesli okumayı desteklemiyor.'); return; }
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(glyph);
+    utterance.lang = 'ar-SA';
+    utterance.rate = 0.7;
+    const voices = window.speechSynthesis.getVoices();
+    const arVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('ar'));
+    if (arVoice) utterance.voice = arVoice;
+    el.classList.add('playing');
+    utterance.onend = () => el.classList.remove('playing');
+    window.speechSynthesis.speak(utterance);
+    if (typeof mLogActivity === 'function') mLogActivity();
+  }
+
   harfler.forEach(([glyph,name]) => {
     const d = document.createElement('div');
     d.className = 'harf';
-    d.title = name;
-    d.innerHTML = `<span class="glyph">${glyph}</span><span class="name">${name}</span>`;
+    d.title = name + ' — tıkla ve dinle';
+    d.innerHTML = `<span class="speak-icon">🔊</span><span class="glyph">${glyph}</span><span class="name">${name}</span>`;
+    d.addEventListener('click', () => harfiSesliOku(glyph, d));
     grid.appendChild(d);
+  });
+
+  document.querySelectorAll('.seviye-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.seviye-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.seviye-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('panel-' + tab.dataset.seviye).classList.add('active');
+    });
   });
 </script>
 </body>
