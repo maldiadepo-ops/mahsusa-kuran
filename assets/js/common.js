@@ -67,6 +67,7 @@ function mNavInject(basePath, activeKey) {
         {key:'kuran', label:"Kur'an Oku", href: basePath + 'modules/kuran/index.html'},
         {key:'elifba', label:'Elifba', href: basePath + 'modules/elifba/index.html'},
         {key:'peygamberler', label:'Peygamberler', href: basePath + 'modules/peygamberler/index.html'},
+        {key:'hadisler', label:'Hadisler', href: basePath + 'modules/hadisler/index.html'},
         {key:'siyer', label:'Siyer Yarışması', href: basePath + 'modules/siyer/index.html'},
     ];
     const linksHtml = items.map(i =>
