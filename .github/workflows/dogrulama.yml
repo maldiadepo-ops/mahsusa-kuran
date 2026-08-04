@@ -1,0 +1,26 @@
+name: Veri Doğrulama
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  gunun-ayeti:
+    name: Günün ayeti JSON
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kodu indir
+        uses: actions/checkout@v4
+
+      - name: Node.js kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Veriyi doğrula
+        run: node scripts/dogrula-gunun-ayeti.mjs
