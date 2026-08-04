@@ -1,7 +1,6 @@
 name: Günün Ayeti Güncelle
 
-# Bu "robot" her gün 00:15 (Türkiye saati ≈ UTC+3, yani 21:15 UTC bir önceki gün) otomatik çalışır.
-# İstersen "workflow_dispatch" sayesinde GitHub üzerinden elle de tetikleyebilirsin (Actions sekmesi > Run workflow).
+# Her gün 00:15 Türkiye saatinde (21:15 UTC) çalışır.
 on:
   schedule:
     - cron: "15 21 * * *"
@@ -9,6 +8,11 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
+
+concurrency:
+  group: gunun-ayeti-guncelle
+  cancel-in-progress: false
 
 jobs:
   guncelle:
@@ -16,6 +20,8 @@ jobs:
     steps:
       - name: Kodu indir
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Node.js kur
         uses: actions/setup-node@v4
@@ -25,10 +31,50 @@ jobs:
       - name: Günün ayetini üret
         run: node scripts/gunun-ayeti.mjs
 
-      - name: Değişikliği siteye kaydet
+      - name: Üretilen veriyi doğrula
+        run: node scripts/dogrula-gunun-ayeti.mjs
+
+      - name: İnceleme PR'ını oluştur veya güncelle
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BOT_BRANCH: automation/gunun-ayeti
+        shell: bash
         run: |
+          set -euo pipefail
+
+          if git diff --quiet -- data/gunun-ayeti.json; then
+            echo "Günün ayeti zaten güncel; PR değişikliği yok."
+            exit 0
+          fi
+
+          tarih="$(node -e "console.log(require('./data/gunun-ayeti.json').tarih)")"
+          baslik="Günün ayeti: ${tarih}"
+
           git config user.name "mahsusa-bot"
           git config user.email "bot@mahsusakuran.com"
+          git fetch origin "refs/heads/${BOT_BRANCH}:refs/remotes/origin/${BOT_BRANCH}" || true
+          git switch --force-create "${BOT_BRANCH}"
           git add data/gunun-ayeti.json
-          git diff --quiet --cached || git commit -m "Günün ayeti güncellendi ($(date -u +%Y-%m-%d))"
-          git push
+          git commit -m "${baslik}"
+          git push --force-with-lease origin "HEAD:refs/heads/${BOT_BRANCH}"
+
+          pr_number="$(gh pr list \
+            --repo "${GITHUB_REPOSITORY}" \
+            --head "${BOT_BRANCH}" \
+            --state open \
+            --json number \
+            --jq '.[0].number // empty')"
+
+          if [[ -n "${pr_number}" ]]; then
+            gh pr edit "${pr_number}" \
+              --repo "${GITHUB_REPOSITORY}" \
+              --title "${baslik}" \
+              --body "Otomatik günlük ayet güncellemesi. Veri Doğrulama kontrolü geçtikten sonra incelenip birleştirilebilir."
+          else
+            gh pr create \
+              --repo "${GITHUB_REPOSITORY}" \
+              --base main \
+              --head "${BOT_BRANCH}" \
+              --title "${baslik}" \
+              --body "Otomatik günlük ayet güncellemesi. Veri Doğrulama kontrolü geçtikten sonra incelenip birleştirilebilir."
+          fi
